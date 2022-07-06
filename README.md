@@ -1,4 +1,4 @@
-## MZ-BINS - a skill based bin-dive function for QB-CORE based FiveM servers
+## MZ-BINS - a progression based bin-dive function for QB-CORE based FiveM servers
 
 _By Mr_Zain#4139_
 
