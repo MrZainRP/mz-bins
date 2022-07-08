@@ -987,6 +987,23 @@ RegisterNetEvent('mz-bins:client:pawnitems', function(item)
     end
 end)
 
+-----------
+--WALLETS--
+-----------
+
+RegisterNetEvent('mz-bins:client:walletOpen', function(itemName)
+    TriggerEvent('animations:client:EmoteCommandStart', {"makeitrain"})
+    QBCore.Functions.Progressbar("drink_something", "Opening Wallet", 3500, false, true, {
+        disableMovement = false,
+        disableCarMovement = false,
+		disableMouse = false,
+		disableCombat = true,
+    }, {}, {}, {}, function() -- Done
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        TriggerServerEvent("mz-bins:server:walletReward")
+    end)
+end)
+
 -------------
 --FUNCTIONS--
 -------------

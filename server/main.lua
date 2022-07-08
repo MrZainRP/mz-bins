@@ -5,6 +5,7 @@ local ItemList = {
     ["emptybottle"] = "emptybottle",
     ["bottlecaps"] = "bottlecaps",
     ["brokencup"] = "brokencup",
+    ["wallet"] = "wallet",
 }
 
 QBCore.Functions.CreateCallback('mz-bins:getItem', function(source, cb)
@@ -254,4 +255,43 @@ RegisterNetEvent("mz-bins:server:sellTrashItems", function(itemName, itemAmount,
             TriggerClientEvent('okokNotify:Alert', source, "WRONG ITEMS?", "You do not have the necessary items", 3500, 'error')
         end
     end
+end)
+
+-----------
+--WALLETS--
+-----------
+
+QBCore.Functions.CreateUseableItem("wallet", function(source, item)
+    TriggerClientEvent("mz-bins:client:walletOpen", source, item.name)
+end)
+
+RegisterServerEvent('mz-bins:server:walletReward')
+AddEventHandler('mz-bins:server:walletReward', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local wallet = Player.Functions.GetItemByName('wallet')
+    local walletcash = math.random(1, 500)
+    local chancey = math.random(1, 10)
+    if chancey < 3 then
+        Player.Functions.AddMoney("cash", walletcash)
+        if Config.NotifyType == "qb" then    
+            TriggerClientEvent("QBCore:Notify", src, "Hey, you found some cash! Nice!", "success", 3500)
+        elseif Config.NotifyType == "okok" then
+            TriggerClientEvent('okokNotify:Alert', source, "CASH FOUND", "You found some cash! Nice!", 3500, 'success')
+        end
+    elseif chancey > 2 and chancey < 7 then
+        if Config.NotifyType == "qb" then    
+            TriggerClientEvent("QBCore:Notify", src, "Found a note 'Be good to your mother' ...")
+        elseif Config.NotifyType == "okok" then
+            TriggerClientEvent('okokNotify:Alert', source, "META FOUND", "Found a note 'Be good to your mother' ...", 3500, 'success')
+        end
+    elseif chancey > 6 and chancey < 11 then
+        if Config.NotifyType == "qb" then    
+            TriggerClientEvent("QBCore:Notify", src, "Empty... It came from a bin, what did you expect?", "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            TriggerClientEvent('okokNotify:Alert', source, "NOTHING HERE", "Empty... It came from a bin, what did you expect?", 3500, 'error')
+        end
+    end
+    Player.Functions.RemoveItem("wallet", 1)
+    TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['wallet'], "remove", 1)
 end)
