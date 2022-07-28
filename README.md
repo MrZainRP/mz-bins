@@ -4,7 +4,7 @@ _By Mr_Zain#4139_
 
 ## PREVIEW
 
-[![mz-bins](https://i.imgur.com/tVtzHi9.png)](https://www.youtube.com/watch?v=M7_A7hdnC1g "mz-bins for FiveM by Mr_Zain#4139")
+[![mz-bins](https://i.imgur.com/tVtzHi9.png)](https://www.youtube.com/watch?v=UuNhdnj3rZc "mz-shrooms for FiveM by Mr_Zain#4139")
 
 ## Introduction 
 - The ultimate, progression based bin-diving function where players are able to interact with bins found around the map to find useful things that the locals have thrown out.
