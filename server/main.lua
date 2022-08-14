@@ -10,70 +10,59 @@ local ItemList = {
 
 QBCore.Functions.CreateCallback('mz-bins:getItem', function(source, cb)
 	local src = source
-    local ply = QBCore.Functions.GetPlayer(src)
-    local luck = math.random(1, 20)
-        if luck > 2 and luck < 21 then
-        local src = source
-        local Player = QBCore.Functions.GetPlayer(src)
-        local chance = math.random(1, 200)
-        if chance > 0 and chance < 50 then
-            Player.Functions.AddItem(QBCore.Shared.Items["sodacan"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sodacan"], "add")
-        elseif chance > 49 and chance < 71 then
-            Player.Functions.AddItem(QBCore.Shared.Items["bottlecaps"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bottlecaps"], "add")
-        elseif chance > 70 and chance < 91 then
-            Player.Functions.AddItem(QBCore.Shared.Items["emptybottle"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["emptybottle"], "add")
-        elseif chance > 90 and chance < 116 then
-            Player.Functions.AddItem(QBCore.Shared.Items["brokencup"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["brokencup"], "add")
-        elseif chance > 115 and chance < 136 then
-            Player.Functions.AddItem(QBCore.Shared.Items["ace"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["ace"], "add")
-        elseif chance > 135 and chance < 156 then
-            Player.Functions.AddItem(QBCore.Shared.Items["crayons"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["crayons"], "add")
-        elseif chance > 155 and chance < 166 then
-            Player.Functions.AddItem(QBCore.Shared.Items["sunglasses"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sunglasses"], "add")
-        elseif chance > 166 and chance < 175 then
-            Player.Functions.AddItem(QBCore.Shared.Items["teddy"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["teddy"], "add")
-        elseif chance > 174 and chance < 182 then
-            Player.Functions.AddItem(QBCore.Shared.Items["fabric"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["fabric"], "add")
-        elseif chance > 181 and chance < 186 then
-            Player.Functions.AddItem(QBCore.Shared.Items["actiontoy"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["actiontoy"], "add")
-        elseif chance > 185 and chance < 194 then
-            Player.Functions.AddItem(QBCore.Shared.Items["bulletcasing"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bulletcasing"], "add")
-        elseif chance > 193 and chance < 197 then
-            Player.Functions.AddItem(QBCore.Shared.Items["wd40"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["wd40"], "add")
-        elseif chance > 197 and chance < 199 then
-            Player.Functions.AddItem(QBCore.Shared.Items["blankusb"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["blankusb"], "add")
-        elseif chance == 199 then
-            Player.Functions.AddItem(QBCore.Shared.Items["pistol1"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["pistol1"], "add")
-        elseif chance == 200 then
-            Player.Functions.AddItem(QBCore.Shared.Items["screwdriver"].name, 1)
-            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["screwdriver"], "add")
-        end
-        Wait(100)
-        if Config.NotifyType == 'qb' then
-            TriggerClientEvent('QBCore:Notify', src, "This might be useful, nice!", 'success')
-        elseif Config.NotifyType == "okok" then
-            TriggerClientEvent('okokNotify:Alert', source, "YOU FOUND SOMETHING!", "This might be useful, nice!", 3500, 'success')
-        end
-    else
-        if Config.NotifyType == 'qb' then
-            TriggerClientEvent('QBCore:Notify', src, "This bin was empty...", 'success')
-        elseif Config.NotifyType == "okok" then
-            TriggerClientEvent('okokNotify:Alert', source, "BIN EMPTY", "This bin was empty...", 3500, 'error')
-        end
+    local Player = QBCore.Functions.GetPlayer(src)
+    local chance = math.random(1, 200)
+    if chance > 0 and chance < 50 then
+        Player.Functions.AddItem(QBCore.Shared.Items["sodacan"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sodacan"], "add")
+    elseif chance > 49 and chance < 71 then
+        Player.Functions.AddItem(QBCore.Shared.Items["bottlecaps"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bottlecaps"], "add")
+    elseif chance > 70 and chance < 91 then
+        Player.Functions.AddItem(QBCore.Shared.Items["emptybottle"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["emptybottle"], "add")
+    elseif chance > 90 and chance < 116 then
+        Player.Functions.AddItem(QBCore.Shared.Items["brokencup"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["brokencup"], "add")
+    elseif chance > 115 and chance < 136 then
+        Player.Functions.AddItem(QBCore.Shared.Items["ace"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["ace"], "add")
+    elseif chance > 135 and chance < 156 then
+        Player.Functions.AddItem(QBCore.Shared.Items["crayons"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["crayons"], "add")
+    elseif chance > 155 and chance < 166 then
+        Player.Functions.AddItem(QBCore.Shared.Items["sunglasses"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sunglasses"], "add")
+    elseif chance > 166 and chance < 175 then
+        Player.Functions.AddItem(QBCore.Shared.Items["teddy"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["teddy"], "add")
+    elseif chance > 174 and chance < 182 then
+        Player.Functions.AddItem(QBCore.Shared.Items["fabric"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["fabric"], "add")
+    elseif chance > 181 and chance < 186 then
+        Player.Functions.AddItem(QBCore.Shared.Items["actiontoy"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["actiontoy"], "add")
+    elseif chance > 185 and chance < 194 then
+        Player.Functions.AddItem(QBCore.Shared.Items["bulletcasing"].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bulletcasing"], "add")
+    elseif chance > 193 and chance < 197 then
+        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem1].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem1], "add")
+    elseif chance > 196 and chance < 199 then
+        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem2].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem2], "add")
+    elseif chance == 199 then
+        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem3].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem3], "add")
+    elseif chance == 200 then
+        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem4].name, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem4], "add")
+    end
+    Wait(100)
+    if Config.NotifyType == 'qb' then
+        TriggerClientEvent('QBCore:Notify', src, "This might be useful, nice!", 'success')
+    elseif Config.NotifyType == "okok" then
+        TriggerClientEvent('okokNotify:Alert', source, "YOU FOUND SOMETHING!", "This might be useful, nice!", 3500, 'success')
     end
 end)
 
