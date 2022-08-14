@@ -1,5 +1,19 @@
 Config = Config or {}
 
+--Time it takes to search bin
+Config.SearchTimeLow = 3 -- Lowest time it will take to search a bin (in seconds)
+Config.SearchTimeHigh = 5 -- Highest time it will take to search a bin (in seconds)
+
+--Fail function + chance of failure
+Config.FailEnabled = "yes" -- change to "no" if you do not want a player to have a chance to find nothing from searching a bin
+Config.FailChance = 10 -- Percentage chance for a player to fail to find anything useful upon a successful search of a bin
+
+--Rare items (change these to items with a rare chance of being found from bins if you do not want to use the provided defaults)
+Config.Rareitem1 = "wd40" -- 1.5% chance to find when searching a bin
+Config.Rareitem2 = "blankusb" -- 1% chance to find when searching a bin
+Config.Rareitem3 = "pistol1" -- 0.5% chance to find when searching a bin
+Config.Rareitem4 = "screwdriver" -- 0.5% chance to find when searching a bin
+
 Config.SellLocation = {
     [1] = {
             coords = vector3(1703.29, 3779.5, 34.75),
@@ -15,7 +29,6 @@ Config.SellLocation = {
 
 Config.BankMoney = false -- Set to true if you want the money to go into the players bank
 Config.UseTimes = false -- Set to false if you want the pawnshop open 24/7
-
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
 Config.NotifyType = 'okok' -- notification type: 'qb' for qb-core standard notifications, 'okok' for okokNotify notifications
