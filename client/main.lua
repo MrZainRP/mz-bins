@@ -45,38 +45,50 @@ RegisterNetEvent("mz-bins:SearchBin")
 AddEventHandler("mz-bins:SearchBin", function()
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
+    TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     for i = 1, #closestBin do
         local x = GetClosestObjectOfType(playerCoords, 1.0, GetHashKey(closestBin[i]), false, false, false)
         local entity = nil
         if DoesEntityExist(x) and not IsPedSittingInAnyVehicle(PlayerPedId()) then
             entity = x
             if not cachedBins[entity] then
-                local success = exports['qb-lock']:StartLockPickCircle(1, 13)
-                if success then
-                    openBin(entity)
-                    Wait(2000)
-                    local chance = 1
-                    local xpmultiple = math.random(1, 4)
-                    if xpmultiple > 3 then
-                        chance = 2
-                    elseif xpmultiple < 4 then
-                        chance = 1
+                if searching == false then 
+                    searching = true 
+                    local success = exports['qb-lock']:StartLockPickCircle(1, 13)
+                    if success then
+                        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                        openBin(entity)
+                        Wait(2000)
+                        local chance = 1
+                        local xpmultiple = math.random(1, 4)
+                        if xpmultiple > 3 then
+                            chance = 2
+                        elseif xpmultiple < 4 then
+                            chance = 1
+                        end
+                        exports["mz-skills"]:UpdateSkill("Searching", chance)
+                    else
+                        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                        local deteriorate = -2
+                        exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                        Wait(800)
+                        if Config.NotifyType == 'qb' then
+                            QBCore.Functions.Notify('Ouch! Did something just poke me?', "error", 3500)
+                            QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
+                        elseif Config.NotifyType == "okok" then
+                            exports['okokNotify']:Alert("UH OH!", "Ouch! Did something just poke me?", 3500, "error")
+                            exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
+                        end   
                     end
-                    exports["mz-skills"]:UpdateSkill("Searching", chance)
                 else
-                    local deteriorate = -2
-                    exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
                     if Config.NotifyType == 'qb' then
-                        QBCore.Functions.Notify('Ouch! Did something just poke me?', "error", 3500)
-                        Wait(1600)
-                        QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
+                        QBCore.Functions.Notify('You are already doing something, calm down!',"error", 3500)
                     elseif Config.NotifyType == "okok" then
-                        exports['okokNotify']:Alert("UH OH!", "Ouch! Did something just poke me?", 3500, "error")
-                        Wait(1600)
-                        exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
-                    end   
+                        exports['okokNotify']:Alert("DOING A TASK", "You are already doing something, calm down!", 3500, "error")
+                    end
                 end
             else
+                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                 if Config.NotifyType == 'qb' then
                     QBCore.Functions.Notify('You already searched this dumpster.',"error", 3500)
                 elseif Config.NotifyType == "okok" then
@@ -120,7 +132,10 @@ Citizen.CreateThread(function()
 end)
 
 openBin = function(entity)
-    QBCore.Functions.Progressbar("search_register", "Searching for treasure...", math.random(3000, 5000), false, true, {
+    local LowTime = (Config.SearchTimeLow * 1000)
+    local HighTime = (Config.SearchTimeHigh * 1000)
+    local searchtime = math.random(LowTime, HighTime)
+    QBCore.Functions.Progressbar("search_register", "Searching for treasure...", searchtime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -133,8 +148,25 @@ openBin = function(entity)
     }, {}, {}, function() -- Done
         searching = true
         cachedBins[entity] = true
-        QBCore.Functions.TriggerCallback('mz-bins:getItem', function(result)
-        end)
+        if Config.FailEnabled == "yes" then 
+            local bindivechance = math.random(1, 100)
+            if Config.FailChance >= bindivechance then  
+                if Config.NotifyType == 'qb' then
+                    QBCore.Functions.Notify('Darn... you didn\'t find anything...', "error", 3500)
+                elseif Config.NotifyType == "okok" then
+                    exports['okokNotify']:Alert("NOTHING HERE", "Darn... you didn\'t find anything...", 3500, "error")
+                end 
+                searching = false   
+            else 
+                QBCore.Functions.TriggerCallback('mz-bins:getItem', function(result)
+                end)
+                searching = false 
+            end
+        elseif Config.FailEnabled == "no" then 
+            QBCore.Functions.TriggerCallback('mz-bins:getItem', function(result)
+            end)
+            searching = false 
+        end
         ClearPedTasks(PlayerPedId())
         StopAnimTask(PlayerPedId(), "amb@prop_human_bum_bin@base", "base", 1.0)
         searching = false
@@ -1023,7 +1055,7 @@ CreateThread(function()
     })  
  end)
 
- CreateThread(function()
+CreateThread(function()
     exports['qb-target']:AddBoxZone("BinParts", vector3(-1156.22, -1999.3, 13.18), 3.8, 1, {
         name = "BinParts",
         heading = 314,
