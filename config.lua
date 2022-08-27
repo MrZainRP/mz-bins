@@ -1,20 +1,133 @@
 Config = Config or {}
 
---Time it takes to search bin
-Config.SearchTimeLow = 3 -- Lowest time it will take to search a bin (in seconds)
-Config.SearchTimeHigh = 5 -- Highest time it will take to search a bin (in seconds)
+Config.NotifyType = 'okok' -- notification type: 'qb' for qb-core standard notifications, 'okok' for okokNotify notifications
 
---Fail function + chance of failure
-Config.FailEnabled = "yes" -- change to "no" if you do not want a player to have a chance to find nothing from searching a bin
-Config.FailChance = 10 -- Percentage chance for a player to fail to find anything useful upon a successful search of a bin
+--------------
+--BIN DIVING--
+--------------
 
---Rare items (change these to items with a rare chance of being found from bins if you do not want to use the provided defaults)
+--1. MZ-SKILLS?--
+Config.mzskills = false -- change to 'false' to utilise resource without using mz-skills re: "Searching" skill
+--If you choose to use mz-skills, the following parameters will apply:
+Config.diveXPlow = 1 -- Lowest amount of XP player will get for dumpster diving
+Config.diveXPhigh = 3 -- Highest amount of XP player will get for dumpster diving
+Config.diveXPloss = 2 -- Amount of XP lost for failing skillcheck (if skillcheck is enabled)
+
+--2. SKILLCHECK?--
+Config.skillcheck = false -- change to 'false' to remove the skillcheck connected to each bin dive.
+--If you chose to use a skillcheck, the following parameters will apply
+Config.diveparselow = 1 -- Lowest number of skillcheck parses possible when bin diving.
+Config.diveparsehigh = 1 -- Highest number of skillcheck parses possible when bin diving.
+Config.diveparsetime = 12 -- Time for bindive skill check (NOTE: A higher time makes the skillcheck slower but generally easier)
+
+--3. RARE ITEMS?--
+Config.rareitems = true -- change to 'false' to disable (NOTE: Rare drops are in addition to standard drops, not in substitution)
+--If you choose to have a potential for rare items to drop from searching bins, the following properties apply:
 Config.Rareitem1 = "wd40" -- 1.5% chance to find when searching a bin
 Config.Rareitem2 = "blankusb" -- 1% chance to find when searching a bin
 Config.Rareitem3 = "pistol1" -- 0.5% chance to find when searching a bin
 Config.Rareitem4 = "screwdriver" -- 0.5% chance to find when searching a bin
 
-Config.SellLocation = {
+--4. GENERAL BIN SEARCHING PROPERTIES--
+--Time it takes to search bin
+Config.SearchTimeLow = 3 -- Lowest time it will take to search a bin (in seconds)
+Config.SearchTimeHigh = 5 -- Highest time it will take to search a bin (in seconds)
+--Fail function + chance of failure
+Config.FailEnabled = "yes" -- change to "no" if you do not want a player to have a chance to find nothing from searching a bin
+Config.FailChance = 10 -- Percentage chance for a player to fail to find anything useful upon a successful search of a bin
+
+------------
+--CRAFTING--
+------------
+
+--DEFAULT CRAFTING LOCATION: -1156.22, -1999.3, 13.18 (Change the "BinParts" boxZone to relocate the crafting location)
+
+--1. CRUSHING CANS
+Config.canslow = 3 -- Lowest number of skillchecks to crush cans.
+Config.canshigh = 5 -- Highest number of skillchecks to crush cans.
+Config.canstimelow = 6 -- Lowest time (in seconds) to crush cans. 
+Config.canstimehigh = 10 -- Highest time (in seconds) to crush cans.
+
+--If using "mz-skills" thje following XP parameters will apply:
+Config.cansXPlow = 3 -- Lowest amount of "Searching" XP gained from crushing cans. 
+Config.cansXPhigh = 6 -- Highest amount of "Searching" XP gained from crushing cans. 
+Config.cansXPloss = 3 -- Amount of "Searching" XP lost from failing to crush cans. 
+
+--Inputs and outputs
+Config.cansamount = 3 -- Number of cans needed in order to be able to crush them.
+Config.cansreturnlow = 3 -- Lowest return for crushing cans.
+Config.cansreturnhigh = 5 -- Highest return for crushing cans.
+
+----------------------------------------------------
+
+--2. CRUSHING BOTTLES
+Config.bottleslow = 3 -- Lowest number of skillchecks to crush bottles.
+Config.bottleshigh = 5 -- Highest number of skillchecks to crush bottles.
+Config.bottlestimelow = 6 -- Lowest time (in seconds) to crush bottles. 
+Config.bottlestimehigh = 10 -- Highest time (in seconds) to crush bottles. 
+
+--If using "mz-skills" thje following XP parameters will apply:
+Config.bottlesXPlow = 3 -- Lowest amount of "Searching" XP gained from crushing bottles. 
+Config.bottlesXPhigh = 6 -- Highest amount of "Searching" XP gained from crushing bottles. 
+Config.bottlesXPloss = 3 -- Amount of "Searching" XP lost from failing to crush bottles. 
+
+--Inputs and outputs
+Config.bottlesamount = 3 -- Number of bottles needed in order to be able to crush them.
+Config.bottlesreturnlow = 3 -- Lowest return for crushing bottles.
+Config.bottlesreturnhigh = 5 -- Highest return for crushing bottles.
+
+----------------------------------------------------
+
+--3. CRUSHING BOTTLECAPS
+Config.bottlecapslow = 5 -- Lowest number of skillchecks to crush bottlecaps.
+Config.bottlecapshigh = 7 -- Highest number of skillchecks to crush bottlecaps.
+Config.bottlecapstimelow = 6 -- Lowest time (in seconds) to crush bottlecaps. 
+Config.bottlecapstimehigh = 10 -- Highest time (in seconds) to crush bottlecaps. 
+
+--If using "mz-skills" thje following XP parameters will apply:
+Config.bottlecapsXPlow = 3 -- Lowest amount of "Searching" XP gained from crushing bottlecaps. 
+Config.bottlecapsXPhigh = 6 -- Highest amount of "Searching" XP gained from crushing bottlecaps. 
+Config.bottlecapsXPloss = 3 -- Amount of "Searching" XP lost from failing to crush bottlecaps. 
+
+--Inputs and outputs
+Config.bottlecapsamount = 3 -- Number of bottlecaps needed in order to be able to crush them.
+Config.bottlecapsreturnlow = 3 -- Lowest return for crushing bottlecaps.
+Config.bottlecapsreturnhigh = 8 -- Highest return for crushing bottlecaps.
+
+----------------------------------------------------
+
+--4. CRUSHING BROKENCUP
+Config.brokencuplow = 5 -- Lowest number of skillchecks to crush broken cups.
+Config.brokencuphigh = 7 -- Highest number of skillchecks to crush broken cups.
+Config.brokencuptimelow = 6 -- Lowest time (in seconds) to crush broken cups.
+Config.brokencuptimehigh = 10 -- Highest time (in seconds) to crush broken cups.
+
+--If using "mz-skills" thje following XP parameters will apply:
+Config.brokencupXPlow = 4 -- Lowest amount of "Searching" XP gained from crushing broken cups.
+Config.brokencupXPhigh = 7 -- Highest amount of "Searching" XP gained from crushing broken cups.
+Config.brokencupXPloss = 3 -- Amount of "Searching" XP lost from failing to crush broken cups.
+
+--Inputs and outputs
+Config.brokencupamount = 3 -- Number of brokencup needed in order to be able to crush them.
+Config.brokencupreturnlow = 3 -- Lowest return for crushing broken cups.
+Config.brokencupreturnhigh = 7 -- Highest return for crushing broken cups.
+
+----------------------------------------------------
+
+--OBJECTS--
+
+-- Trash objects player can interact with - [add more props to this list if you wish to expand the bin searching function to those props]
+Config.Objects = {
+    "prop_dumpster_01a",
+    "prop_dumpster_01a",
+    "prop_dumpster_02a",
+    "prop_dumpster_02b",
+}
+
+-----------------
+--SELLING ITEMS--
+-----------------
+Config.SellLocation = { -- If you change this - be sure to also change the details for the "sellbinitems" boxZone in client/main.lua. Those details should match the details in this config variable.
     [1] = {
             coords = vector3(1703.29, 3779.5, 34.75),
             length = 1.2,
@@ -27,19 +140,50 @@ Config.SellLocation = {
         },
     }
 
-Config.BankMoney = false -- Set to true if you want the money to go into the players bank
-Config.UseTimes = false -- Set to false if you want the pawnshop open 24/7
-Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
+-- NO MZ-SKILLS
+-- The following table applies if you are not using "mz-skills".
 
-Config.NotifyType = 'okok' -- notification type: 'qb' for qb-core standard notifications, 'okok' for okokNotify notifications
+    Config.TrashItemsNOXP = {
+        [1] = {
+            item = "bottlecaps",
+            price = 15
+        },
+        [2] = {
+            item = "ace",
+            price = 50
+        },
+        [3] = {
+            item = "sunglasses",
+            price = 60
+        },
+        [4] = {
+            item = "crayons",
+            price = 70
+        },
+        [5] = {
+            item = "teddy",
+            price = 85
+        },
+        [6] = {
+            item = "fabric",
+            price = 100
+        },
+        [7] = {
+            item = "actiontoy",
+            price = 130
+        },
+        [8] = {
+            item = "wd40",
+            price = 150
+        },
+        [9] = {
+            item = "screwdriver",
+            price = 170
+        },
+    }
 
-Config.Objects = {
-    -- Trash objects player can interact with - add more props to expand the function
-    "prop_dumpster_01a",
-    "prop_dumpster_01a",
-    "prop_dumpster_02a",
-    "prop_dumpster_02b",
-}
+--MZ-SKILLS
+--The following tables apply if you are using "mz-skills". The relevant table called depends on the amount of "Searching" XP a player has at the time of attempting to sell items found in bins. 
 
 Config.TrashItems = {
     [1] = {
