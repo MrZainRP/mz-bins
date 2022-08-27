@@ -53,32 +53,56 @@ AddEventHandler("mz-bins:SearchBin", function()
             entity = x
             if not cachedBins[entity] then
                 if searching == false then 
-                    searching = true 
-                    local success = exports['qb-lock']:StartLockPickCircle(1, 13)
-                    if success then
-                        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                    searching = true
+                    if Config.skillcheck then 
+                        local bindiveparse = math.random(Config.diveparselow, Config.diveparsehigh)
+                        local success = exports['qb-lock']:StartLockPickCircle(bindiveparse, Config.diveparsetime)
+                        if success then
+                            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                            openBin(entity)
+                            Wait(2000)
+                            if Config.mzskills then 
+                                local BetterXP = math.random(Config.diveXPlow, Config.diveXPhigh)
+                                local xpmultiple = math.random(1, 4)
+                                if xpmultiple > 3 then
+                                    chance = BetterXP
+                                elseif xpmultiple < 4 then
+                                    chance = Config.diveXPlow
+                                end
+                                exports["mz-skills"]:UpdateSkill("Searching", chance)
+                            end
+                        else
+                            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                            if Config.NotifyType == 'qb' then
+                                QBCore.Functions.Notify('Ouch! Did something just poke me?', "error", 3500)
+                            elseif Config.NotifyType == 'okok' then 
+                                exports['okokNotify']:Alert("UH OH!", "Ouch! Did something just poke me?", 3500, "error")
+                            end
+                            Wait(1000)
+                            if Config.mzskills then 
+                                local deteriorate = -Config.diveXPloss
+                                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                                Wait(800)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('-'..Config.diveXPloss.. 'XP to Searching', "error", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("SKILLS", '-'..Config.diveXPloss.. 'XP to Searching', 3500, "error")
+                                end
+                            end
+                        end
+                    elseif not Config.skillcheck then 
                         openBin(entity)
                         Wait(2000)
-                        local chance = 1
-                        local xpmultiple = math.random(1, 4)
-                        if xpmultiple > 3 then
-                            chance = 2
-                        elseif xpmultiple < 4 then
-                            chance = 1
+                        if Config.mzskills then 
+                            local BetterXP = math.random(Config.diveXPlow, Config.diveXPhigh)
+                            local xpmultiple = math.random(1, 4)
+                            if xpmultiple > 3 then
+                                chance = BetterXP
+                            elseif xpmultiple < 4 then
+                                chance = Config.diveXPlow
+                            end
+                            exports["mz-skills"]:UpdateSkill("Searching", chance)
                         end
-                        exports["mz-skills"]:UpdateSkill("Searching", chance)
-                    else
-                        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                        local deteriorate = -2
-                        exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-                        Wait(800)
-                        if Config.NotifyType == 'qb' then
-                            QBCore.Functions.Notify('Ouch! Did something just poke me?', "error", 3500)
-                            QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
-                        elseif Config.NotifyType == "okok" then
-                            exports['okokNotify']:Alert("UH OH!", "Ouch! Did something just poke me?", 3500, "error")
-                            exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
-                        end   
                     end
                 else
                     if Config.NotifyType == 'qb' then
@@ -160,18 +184,25 @@ openBin = function(entity)
             else 
                 QBCore.Functions.TriggerCallback('mz-bins:getItem', function(result)
                 end)
+                if Config.rareitems then 
+                    Wait(1000)
+                    TriggerServerEvent('mz-bins:server:GetItemRare')
+                end
                 searching = false 
             end
         elseif Config.FailEnabled == "no" then 
             QBCore.Functions.TriggerCallback('mz-bins:getItem', function(result)
             end)
-            searching = false 
+            if Config.rareitems then 
+                Wait(1000)
+                TriggerServerEvent('mz-bins:server:GetItemRare')
+            end
+            searching = false  
         end
         ClearPedTasks(PlayerPedId())
         StopAnimTask(PlayerPedId(), "amb@prop_human_bum_bin@base", "base", 1.0)
         searching = false
     end, function() -- Cancel
-        GetMoney = false
         StopAnimTask(PlayerPedId(), "amb@prop_human_bum_bin@base", "base", 1.0)
         ClearPedTasks(PlayerPedId())
         if Config.NotifyType == 'qb' then
@@ -224,7 +255,7 @@ end)
 function BreakdownCansMinigame(source)
     local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
     if NeededAttempts == 0 then
-        NeededAttempts = math.random(3, 5)
+        NeededAttempts = math.random(Config.canslow, Config.canshigh)
     end
     local maxwidth = 30
     local maxduration = 3000
@@ -242,14 +273,16 @@ function BreakdownCansMinigame(source)
                 exports['okokNotify']:Alert("PRESSING CANS", "You begin pressing down the cans...", 3500, "success")
             end   
             Wait(500)
-            local skillup = 1
-            local multiplier = math.random(1, 4)
-            if multiplier > 3 then
-                skillup = 8
-            else
-                skillup = 6
+            if Config.mzskills then 
+                local BetterXP = math.random(Config.cansXPlow, Config.cansXPhigh)
+                local multiplier = math.random(1, 4)
+                if multiplier >= 3 then
+                    skillup = BetterXP
+                else
+                    skillup = Config.cansXPlow
+                end
+                exports["mz-skills"]:UpdateSkill("Searching", skillup)
             end
-            exports["mz-skills"]:UpdateSkill("Searching", skillup)
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -268,13 +301,15 @@ function BreakdownCansMinigame(source)
                 exports['okokNotify']:Alert("CANS RUINED", "You apply too much force to the press and ruin the cans...", 3500, "error")
             end
             Wait(500)
-            local deteriorate = -2
-            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
-            end   
+            if Config.mzskills then 
+                local deteriorate = -Config.cansXPloss
+                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                if Config.NotifyType == 'qb' then
+                    QBCore.Functions.Notify('-'..Config.cansXPloss.. 'XP to Searching', "error", 3500)
+                elseif Config.NotifyType == "okok" then
+                    exports['okokNotify']:Alert("SKILLS", '-'..Config.cansXPloss.. 'XP to Searching', 3500, "error")
+                end   
+            end
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -284,7 +319,8 @@ function BreakdownCansMinigame(source)
 end
 
 function BreakCansProcess()
-    QBCore.Functions.Progressbar("grind_coke", "Pressing down cans...", math.random(8000, 12000), false, true, {
+    local canstime = math.random(Config.canstimelow*1000, Config.canstimehigh*1000)
+    QBCore.Functions.Progressbar("grind_coke", "Pressing down cans...", canstime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -339,7 +375,7 @@ end)
 function BreakdownBottlesMinigame(source)
     local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
     if NeededAttempts == 0 then
-        NeededAttempts = math.random(3, 5)
+        NeededAttempts = math.random(Config.bottleslow, Config.bottleshigh)
     end
     local maxwidth = 30
     local maxduration = 3000
@@ -357,14 +393,16 @@ function BreakdownBottlesMinigame(source)
                 exports['okokNotify']:Alert("CRUSHING BOTTLES", "You begin crushing the plastic bottles...", 3500, "success")
             end   
             Wait(500)
-            local skillup = 1
-            local multiplier = math.random(1, 4)
-            if multiplier > 3 then
-                skillup = 8
-            else
-                skillup = 6
+            if Config.mzskills then 
+                local BetterXP = math.random(Config.bottlesXPlow, Config.bottlesXPhigh)
+                local multiplier = math.random(1, 4)
+                if multiplier >= 3 then
+                    skillup = BetterXP
+                else
+                    skillup = Config.bottlesXPlow
+                end
+                exports["mz-skills"]:UpdateSkill("Searching", skillup)
             end
-            exports["mz-skills"]:UpdateSkill("Searching", skillup)
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -383,13 +421,15 @@ function BreakdownBottlesMinigame(source)
                 exports['okokNotify']:Alert("BOTTLES RUINED", "Your hand slips and the plastic breaks into unusable parts...", 3500, "error")
             end
             Wait(500)
-            local deteriorate = -2
-            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
-            end   
+            if Config.mzskills then 
+                local deteriorate = -Config.bottlesXPloss
+                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                if Config.NotifyType == 'qb' then
+                    QBCore.Functions.Notify('-'..Config.bottlesXPloss.. 'XP to Searching', "error", 3500)
+                elseif Config.NotifyType == "okok" then
+                    exports['okokNotify']:Alert("SKILLS", '-'..Config.bottlesXPloss.. 'XP to Searching', 3500, "error")
+                end   
+            end
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -399,7 +439,8 @@ function BreakdownBottlesMinigame(source)
 end
 
 function BreakBottlesProcess()
-    QBCore.Functions.Progressbar("grind_coke", "Crushing bottles...", math.random(8000, 12000), false, true, {
+    local bottlestime = math.random(Config.bottlestimelow*1000, Config.bottlestimehigh*1000)
+    QBCore.Functions.Progressbar("grind_coke", "Crushing bottles...", bottlestime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -454,7 +495,7 @@ end)
 function BreakdownBottlecapsMinigame(source)
     local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
     if NeededAttempts == 0 then
-        NeededAttempts = math.random(5, 7)
+        NeededAttempts = math.random(Config.bottlecapslow, Config.bottlecapshigh)
     end
     local maxwidth = 30
     local maxduration = 3000
@@ -472,14 +513,16 @@ function BreakdownBottlecapsMinigame(source)
                 exports['okokNotify']:Alert("PROCESS BOTTLECAPS", "You begin processing the bottlecaps...", 3500, "success")
             end   
             Wait(500)
-            local skillup = 1
-            local multiplier = math.random(1, 4)
-            if multiplier > 3 then
-                skillup = 10
-            else
-                skillup = 7
+            if Config.mzskills then 
+                local BetterXP = math.random(Config.bottlecapsXPlow, Config.bottlecapsXPhigh)
+                local multiplier = math.random(1, 4)
+                if multiplier >= 3 then
+                    skillup = BetterXP
+                else
+                    skillup = Config.bottlecapsXPlow
+                end
+                exports["mz-skills"]:UpdateSkill("Searching", skillup)
             end
-            exports["mz-skills"]:UpdateSkill("Searching", skillup)
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -498,13 +541,15 @@ function BreakdownBottlecapsMinigame(source)
                 exports['okokNotify']:Alert("BOTTLECAPS RUINED", "The bottlecaps pop under the pressure... Ruined...", 3500, "error")
             end
             Wait(500)
-            local deteriorate = -2
-            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
-            end   
+            if Config.mzskills then 
+                local deteriorate = -Config.bottlecapsXPloss
+                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                if Config.NotifyType == 'qb' then
+                    QBCore.Functions.Notify('-'..Config.bottlecapsXPloss.. 'XP to Searching', "error", 3500)
+                elseif Config.NotifyType == "okok" then
+                    exports['okokNotify']:Alert("SKILLS", '-'..Config.bottlecapsXPloss.. 'XP to Searching', 3500, "error")
+                end   
+            end
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -514,7 +559,8 @@ function BreakdownBottlecapsMinigame(source)
 end
 
 function BreakBottlesProcess()
-    QBCore.Functions.Progressbar("grind_coke", "Processing bottlecaps...", math.random(8000, 12000), false, true, {
+    local bottlecapstime = math.random(Config.bottlecapstimelow*1000, Config.bottlecapstimehigh*1000)
+    QBCore.Functions.Progressbar("grind_coke", "Processing bottlecaps...", bottlecapstime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -569,7 +615,7 @@ end)
 function BreakdownBrokencupMinigame(source)
     local Skillbar = exports['qb-skillbar']:GetSkillbarObject()
     if NeededAttempts == 0 then
-        NeededAttempts = math.random(5, 7)
+        NeededAttempts = math.random(Config.brokencuplow, Config.brokencuphigh)
     end
     local maxwidth = 30
     local maxduration = 3000
@@ -587,14 +633,16 @@ function BreakdownBrokencupMinigame(source)
                 exports['okokNotify']:Alert("PROCESS GLASS", "You begin crushing the scrap glass...", 3500, "success")
             end   
             Wait(500)
-            local skillup = 1
-            local multiplier = math.random(1, 4)
-            if multiplier > 3 then
-                skillup = 9
-            else
-                skillup = 6
+            if Config.mzskills then 
+                local BetterXP = math.random(Config.brokencupXPlow, Config.brokencupXPhigh)
+                local multiplier = math.random(1, 4)
+                if multiplier >= 3 then
+                    skillup = BetterXP
+                else
+                    skillup = Config.brokencupXPlow
+                end
+                exports["mz-skills"]:UpdateSkill("Searching", skillup)
             end
-            exports["mz-skills"]:UpdateSkill("Searching", skillup)
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -613,13 +661,15 @@ function BreakdownBrokencupMinigame(source)
                 exports['okokNotify']:Alert("GLASS RUINED", "The glass shatters into unuseable pieces...", 3500, "error")
             end
             Wait(500)
-            local deteriorate = -2
-            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('-2 XP to Searching', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("SKILLS", "-2 XP to Searching", 3500, "error")
-            end   
+            if Config.mzskills then 
+                local deteriorate = -Config.brokencupXPloss
+                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                if Config.NotifyType == 'qb' then
+                    QBCore.Functions.Notify('-'..Config.brokencupXPloss.. 'XP to Searching', "error", 3500)
+                elseif Config.NotifyType == "okok" then
+                    exports['okokNotify']:Alert("SKILLS", '-'..Config.brokencupXPloss.. 'XP to Searching', 3500, "error")
+                end   
+            end 
             FailedAttemps = 0
             SucceededAttempts = 0
             NeededAttempts = 0
@@ -629,7 +679,8 @@ function BreakdownBrokencupMinigame(source)
 end
 
 function BreakBrokencupProcess()
-    QBCore.Functions.Progressbar("grind_coke", "Processing glass fragments...", math.random(10000, 14000), false, true, {
+    local brokencuptime = math.random(Config.brokencuptimelow*1000, Config.brokencuptimehigh*1000)
+    QBCore.Functions.Progressbar("grind_coke", "Processing glass fragments...", brokencuptime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -655,141 +706,153 @@ end
 --------------
 
 RegisterNetEvent('mz-bins:client:menuSelect', function()
-    local lvl8 = false
-    local lvl7 = false
-    local lvl6 = false
-    local lvl5 = false
-    local lvl4 = false
-    local lvl3 = false
-    local lvl2 = false
-    local lvl1 = false
-    local lvl0 = false
-
---Skill check call for config.menu prices on items
-    
-    exports["mz-skills"]:CheckSkill("Searching", 12800, function(hasskill)
-        if hasskill then
-            lvl8 = true
+    if Config.mzskills then 
+        local lvl8 = false
+        local lvl7 = false
+        local lvl6 = false
+        local lvl5 = false
+        local lvl4 = false
+        local lvl3 = false
+        local lvl2 = false
+        local lvl1 = false
+        local lvl0 = false
+        --Skill check call for config.menu prices on items  
+        exports["mz-skills"]:CheckSkill("Searching", 12800, function(hasskill)
+            if hasskill then
+                lvl8 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 6400, function(hasskill)
+            if hasskill then
+                lvl7 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 3200, function(hasskill)
+            if hasskill then
+                lvl6 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 1600, function(hasskill)
+            if hasskill then
+                lvl5 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 800, function(hasskill)
+            if hasskill then
+                lvl4 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 400, function(hasskill)
+            if hasskill then
+                lvl3 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 200, function(hasskill)
+            if hasskill then
+                lvl2 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 100, function(hasskill)
+            if hasskill then
+                lvl1 = true
+            end
+        end)
+        exports["mz-skills"]:CheckSkill("Searching", 0, function(hasskill)
+            if hasskill then
+                lvl0 = true
+            end
+        end)
+        -- Menu call dependent on "Searching" XP level - if "mz-skills" is being used.
+        if lvl8 == true then
+            TriggerEvent('mz-bins:client:openMenu9')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Woah, its the veteran diver, give them double on everything! (100% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("VIP BONUS", "Woah, its the veteran diver, give them double on everything! (100% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl7 == true then
+            TriggerEvent('mz-bins:client:openMenu8')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (75% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (75% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl6 == true then
+            TriggerEvent('mz-bins:client:openMenu7')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (60% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (60% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl5 == true then
+            TriggerEvent('mz-bins:client:openMenu6')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (50% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (50% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl4 == true then
+            TriggerEvent('mz-bins:client:openMenu5')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (40% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (40% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl3 == true then
+            TriggerEvent('mz-bins:client:openMenu4')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (30% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (30% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl2 == true then
+            TriggerEvent('mz-bins:client:openMenu3')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (20% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (20% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl1 == true then 
+            TriggerEvent('mz-bins:client:openMenu2')
+            Wait(1000)
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (10% PREMIUM)', "info", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (10% PREMIUM)", 3500, "info")
+            end 
+        elseif lvl0 == true then
+            TriggerEvent('mz-bins:client:openMenu')
         end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 6400, function(hasskill)
-        if hasskill then
-            lvl7 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 3200, function(hasskill)
-        if hasskill then
-            lvl6 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 1600, function(hasskill)
-        if hasskill then
-            lvl5 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 800, function(hasskill)
-        if hasskill then
-            lvl4 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 400, function(hasskill)
-        if hasskill then
-            lvl3 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 200, function(hasskill)
-        if hasskill then
-            lvl2 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 100, function(hasskill)
-        if hasskill then
-            lvl1 = true
-        end
-    end)
-    exports["mz-skills"]:CheckSkill("Searching", 0, function(hasskill)
-        if hasskill then
-            lvl0 = true
-        end
-    end)
-
--- Menu call dependant on XP level
-
-    if lvl8 == true then
-        TriggerEvent('mz-bins:client:openMenu9')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Woah, its the veteran diver, give them double on everything! (100% PREMIUM)', "info", 3500)
-            Wait(500)
-            QBCore.Functions.Notify('Woah, its the veteran diver, give them double on everything! (100% PREMIUM)', "info", 3500)
-            Wait(500)
-            QBCore.Functions.Notify('Woah, its the veteran diver, give them double on everything! (100% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("VIP BONUS", "Woah, its the veteran diver, give them double on everything! (100% PREMIUM)", 3500, "info")
-            Wait(500)
-            exports['okokNotify']:Alert("VIP BONUS", "Woah, its the veteran diver, give them double on everything! (100% PREMIUM)", 3500, "info")
-            Wait(500)
-            exports['okokNotify']:Alert("VIP BONUS", "Woah, its the veteran diver, give them double on everything! (100% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl7 == true then
-        TriggerEvent('mz-bins:client:openMenu8')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (75% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (75% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl6 == true then
-        TriggerEvent('mz-bins:client:openMenu7')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (60% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (60% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl5 == true then
-        TriggerEvent('mz-bins:client:openMenu6')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (50% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (50% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl4 == true then
-        TriggerEvent('mz-bins:client:openMenu5')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (40% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (40% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl3 == true then
-        TriggerEvent('mz-bins:client:openMenu4')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (30% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (30% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl2 == true then
-        TriggerEvent('mz-bins:client:openMenu3')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (20% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (20% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl1 == true then 
-        TriggerEvent('mz-bins:client:openMenu2')
-        Wait(1000)
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify('Hey, I\'ve seen you before, special prices for you. (10% PREMIUM)', "info", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (10% PREMIUM)", 3500, "info")
-        end 
-    elseif lvl0 == true then
-        TriggerEvent('mz-bins:client:openMenu')
+    elseif not Config.mzskills then 
+        TriggerEvent('mz-bins:client:openMenuNOXP')
     end
+end)
+
+RegisterNetEvent('mz-bins:client:openMenuNOXP', function()
+    local pawnShop = {
+        {
+            header = "Trash 'n Treasure",
+            isMenuHeader = true,
+        },
+        {
+            header = "Your trash...",
+            txt = "... is our treasure!",
+            params = {
+                event = "mz-bins:client:openPawn",
+                args = {
+                    items = Config.TrashItemsNOXP
+                }
+            }
+        }
+    }
+    exports['qb-menu']:openMenu(pawnShop)
 end)
 
 RegisterNetEvent('mz-bins:client:openMenu', function()
@@ -1036,9 +1099,9 @@ RegisterNetEvent('mz-bins:client:walletOpen', function(itemName)
     end)
 end)
 
--------------
---FUNCTIONS--
--------------
+------------
+--BOXZONES--
+------------
 
 CreateThread(function()
     exports['qb-target']:AddTargetModel(Config.Objects, {
