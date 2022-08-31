@@ -89,7 +89,7 @@ AddEventHandler("mz-bins:SearchBin", function()
                                     exports['okokNotify']:Alert("SKILLS", '-'..Config.diveXPloss.. 'XP to Searching', 3500, "error")
                                 end
                             end
-                            searchong = false 
+                            searching = false 
                         end
                     elseif not Config.skillcheck then 
                         openBin(entity)
