@@ -89,7 +89,7 @@ AddEventHandler("mz-bins:SearchBin", function()
                                     exports['okokNotify']:Alert("SKILLS", '-'..Config.diveXPloss.. 'XP to Searching', 3500, "error")
                                 end
                             end
-                            searching = false 
+                            searchong = false 
                         end
                     elseif not Config.skillcheck then 
                         openBin(entity)
@@ -228,23 +228,21 @@ end
 
 RegisterNetEvent('mz-bins:client:BreakdownCans')
 AddEventHandler('mz-bins:client:BreakdownCans', function()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        if result then
-            TriggerServerEvent("mz-bins:server:BreakdownCans")
-        else
-            local requiredItems = {
-                [1] = {name = QBCore.Shared.Items["sodacan"]["name"], image = QBCore.Shared.Items["sodacan"]["image"]}, 
-            }  
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('You need soda cans to press...', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("NEED CANS", "You need soda cans to press...", 3500, "error")
-            end   
-            TriggerEvent('inventory:client:requiredItems', requiredItems, true)
-            Wait(3000)
-            TriggerEvent('inventory:client:requiredItems', requiredItems, false)
-        end
-    end, {"sodacan"})
+    if QBCore.Functions.HasItem("sodacan") then
+        TriggerServerEvent("mz-bins:server:BreakdownCans")
+    else
+        local requiredItems = {
+            [1] = {name = QBCore.Shared.Items["sodacan"]["name"], image = QBCore.Shared.Items["sodacan"]["image"]}, 
+        }  
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('You need soda cans to press...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NEED CANS", "You need soda cans to press...", 3500, "error")
+        end   
+        TriggerEvent('inventory:client:requiredItems', requiredItems, true)
+        Wait(3000)
+        TriggerEvent('inventory:client:requiredItems', requiredItems, false)
+    end
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownCansMinigame')
@@ -348,23 +346,21 @@ end
 
 RegisterNetEvent('mz-bins:client:BreakdownBottles')
 AddEventHandler('mz-bins:client:BreakdownBottles', function()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        if result then
-            TriggerServerEvent("mz-bins:server:BreakdownBottles")
-        else
-            local requiredItems = {
-                [1] = {name = QBCore.Shared.Items["emptybottle"]["name"], image = QBCore.Shared.Items["emptybottle"]["image"]}, 
-            }  
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('You need empty bottles to crush...', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("NEED BOTTLES", "You need empty bottles to crush...", 3500, "error")
-            end   
-            TriggerEvent('inventory:client:requiredItems', requiredItems, true)
-            Wait(3000)
-            TriggerEvent('inventory:client:requiredItems', requiredItems, false)
-        end
-    end, {"emptybottle"})
+    if QBCore.Functions.HasItem("emptybottle") then
+        TriggerServerEvent("mz-bins:server:BreakdownBottles")
+    else
+        local requiredItems = {
+            [1] = {name = QBCore.Shared.Items["emptybottle"]["name"], image = QBCore.Shared.Items["emptybottle"]["image"]}, 
+        }  
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('You need empty bottles to crush...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NEED BOTTLES", "You need empty bottles to crush...", 3500, "error")
+        end   
+        TriggerEvent('inventory:client:requiredItems', requiredItems, true)
+        Wait(3000)
+        TriggerEvent('inventory:client:requiredItems', requiredItems, false)
+    end
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownBottlesMinigame')
@@ -468,23 +464,21 @@ end
 
 RegisterNetEvent('mz-bins:client:BreakdownBottlecaps')
 AddEventHandler('mz-bins:client:BreakdownBottlecaps', function()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        if result then
-            TriggerServerEvent("mz-bins:server:BreakdownBottlecaps")
-        else
-            local requiredItems = {
-                [1] = {name = QBCore.Shared.Items["bottlecaps"]["name"], image = QBCore.Shared.Items["bottlecaps"]["image"]}, 
-            }  
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('You need bottlecaps to process...', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("NEED BOTTLECAPS", "You need bottlecaps to process...", 3500, "error")
-            end   
-            TriggerEvent('inventory:client:requiredItems', requiredItems, true)
-            Wait(3000)
-            TriggerEvent('inventory:client:requiredItems', requiredItems, false)
-        end
-    end, {"bottlecaps"})
+    if QBCore.Functions.HasItem("bottlecaps") then
+        TriggerServerEvent("mz-bins:server:BreakdownBottlecaps")
+    else
+        local requiredItems = {
+            [1] = {name = QBCore.Shared.Items["bottlecaps"]["name"], image = QBCore.Shared.Items["bottlecaps"]["image"]}, 
+        }  
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('You need bottlecaps to process...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NEED BOTTLECAPS", "You need bottlecaps to process...", 3500, "error")
+        end   
+        TriggerEvent('inventory:client:requiredItems', requiredItems, true)
+        Wait(3000)
+        TriggerEvent('inventory:client:requiredItems', requiredItems, false)
+    end
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownBottlecapsMinigame')
@@ -588,23 +582,21 @@ end
 
 RegisterNetEvent('mz-bins:client:BreakdownCup')
 AddEventHandler('mz-bins:client:BreakdownCup', function()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        if result then
-            TriggerServerEvent("mz-bins:server:BreakdownCup")
-        else
-            local requiredItems = {
-                [1] = {name = QBCore.Shared.Items["brokencup"]["name"], image = QBCore.Shared.Items["brokencup"]["image"]}, 
-            }  
-            if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('You need something glass to process...', "error", 3500)
-            elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("NEED GLASS", "You need something glass to process...", 3500, "error")
-            end   
-            TriggerEvent('inventory:client:requiredItems', requiredItems, true)
-            Wait(3000)
-            TriggerEvent('inventory:client:requiredItems', requiredItems, false)
-        end
-    end, {"brokencup"})
+    if QBCore.Functions.HasItem("brokencup") then
+        TriggerServerEvent("mz-bins:server:BreakdownCup")
+    else
+        local requiredItems = {
+            [1] = {name = QBCore.Shared.Items["brokencup"]["name"], image = QBCore.Shared.Items["brokencup"]["image"]}, 
+        }  
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('You need something glass to process...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NEED GLASS", "You need something glass to process...", 3500, "error")
+        end   
+        TriggerEvent('inventory:client:requiredItems', requiredItems, true)
+        Wait(3000)
+        TriggerEvent('inventory:client:requiredItems', requiredItems, false)
+    end
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownBrokencupMinigame')
