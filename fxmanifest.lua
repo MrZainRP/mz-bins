@@ -4,7 +4,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'mz-bins - Made by Mr_Zain#4139'
-version '1.2.0'
+version '1.2.1'
 lua54 'yes'
 
 shared_scripts {
@@ -14,5 +14,6 @@ shared_scripts {
 }
 
 client_script 'client/main.lua'
+
 server_script 'server/main.lua'
 
