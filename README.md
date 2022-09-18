@@ -66,4 +66,8 @@ OPTIONAL: (Configured to work with okokNotify as well as base qb-core notificati
 
 ## RESTART SERVER - ENJOY
 
-5. If you attend to all of the above steps you will need to restart the server in order for the new added items to be recognised by qb-core. Starting the mz-scrap resource without doing this will cause errors. Please restart your server ensuring that mz-scrap is ensured/starts after qb-core starts (ideally it should just form part of your [qb] folder). Happy bin diving!
+5. If you attend to all of the above steps you will need to restart the server in order for the new added items to be recognised by qb-core. Starting the mz-scrap resource without doing this will cause errors. 
+
+6. Please restart your server ensuring that mz-bins is ensured/starts after qb-core starts (ideally it should just form part of your [qb] folder). 
+
+Happy bin diving!
