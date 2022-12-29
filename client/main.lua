@@ -54,42 +54,42 @@ RegisterNetEvent("mz-bins:SearchBin", function()
                 if not searching then 
                     searching = true
                     if Config.skillcheck then 
-                        local bindiveparse = math.random(Config.diveparselow, Config.diveparsehigh)
-                        local success = exports['qb-lock']:StartLockPickCircle(bindiveparse, Config.diveparsetime)
-                        if success then
-                            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                            openBin(entity)
-                            Wait(2000)
-                            if Config.mzskills then 
-                                local BetterXP = math.random(Config.diveXPlow, Config.diveXPhigh)
-                                local xpmultiple = math.random(1, 4)
-                                if xpmultiple > 3 then
-                                    chance = BetterXP
-                                elseif xpmultiple < 4 then
-                                    chance = Config.diveXPlow
+                        exports['ps-ui']:Circle(function(success)
+                            if success then
+                                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                                openBin(entity)
+                                Wait(2000)
+                                if Config.mzskills then 
+                                    local BetterXP = math.random(Config.diveXPlow, Config.diveXPhigh)
+                                    local xpmultiple = math.random(1, 4)
+                                    if xpmultiple > 3 then
+                                        chance = BetterXP
+                                    elseif xpmultiple < 4 then
+                                        chance = Config.diveXPlow
+                                    end
+                                    exports["mz-skills"]:UpdateSkill("Searching", chance)
                                 end
-                                exports["mz-skills"]:UpdateSkill("Searching", chance)
-                            end
-                        else
-                            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                            if Config.NotifyType == 'qb' then
-                                QBCore.Functions.Notify('Ouch! Did something just poke me?', "error", 3500)
-                            elseif Config.NotifyType == 'okok' then 
-                                exports['okokNotify']:Alert("UH OH!", "Ouch! Did something just poke me?", 3500, "error")
-                            end
-                            Wait(1000)
-                            if Config.mzskills then 
-                                local deteriorate = -Config.diveXPloss
-                                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-                                Wait(800)
+                            else
+                                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                                 if Config.NotifyType == 'qb' then
-                                    QBCore.Functions.Notify('-'..Config.diveXPloss.. 'XP to Searching', "error", 3500)
-                                elseif Config.NotifyType == "okok" then
-                                    exports['okokNotify']:Alert("SKILLS", '-'..Config.diveXPloss.. 'XP to Searching', 3500, "error")
+                                    QBCore.Functions.Notify('Ouch! Did something just poke me?', "error", 3500)
+                                elseif Config.NotifyType == 'okok' then 
+                                    exports['okokNotify']:Alert("UH OH!", "Ouch! Did something just poke me?", 3500, "error")
                                 end
+                                Wait(1000)
+                                if Config.mzskills then 
+                                    local deteriorate = -Config.diveXPloss
+                                    exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
+                                    Wait(800)
+                                    if Config.NotifyType == 'qb' then
+                                        QBCore.Functions.Notify('-'..Config.diveXPloss.. 'XP to Searching', "error", 3500)
+                                    elseif Config.NotifyType == "okok" then
+                                        exports['okokNotify']:Alert("SKILLS", '-'..Config.diveXPloss.. 'XP to Searching', 3500, "error")
+                                    end
+                                end
+                                searching = false 
                             end
-                            searching = false 
-                        end
+                        end, Config.diveparse, Config.diveparsetime)
                     elseif not Config.skillcheck then 
                         openBin(entity)
                         Wait(2000)

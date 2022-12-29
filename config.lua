@@ -2,7 +2,6 @@ Config = Config or {}
 
 --DEFAULT CRAFTING LOCATION:            -1156.22, -1999.3, 13.18 (Change the "BinParts" boxZone to relocate the crafting location)
 
-
 -----------
 --MZ-BINS--
 -----------
@@ -22,11 +21,10 @@ Config.diveXPhigh = 3                   -- Highest amount of XP player will get 
 Config.diveXPloss = 2                   -- Amount of XP lost for failing skillcheck (if skillcheck is enabled)
 
 --2. SKILLCHECK?--
-Config.skillcheck = false               -- change to 'false' to remove the skillcheck connected to each bin dive.
+Config.skillcheck = true               -- change to 'false' to remove the skillcheck connected to each bin dive.
 
 --If you chose to use a skillcheck, the following parameters will apply
-Config.diveparselow = 1                 -- Lowest number of skillcheck parses possible when bin diving.
-Config.diveparsehigh = 1                -- Highest number of skillcheck parses possible when bin diving.
+Config.diveparse = 1                    -- Lowest number of skillcheck parses possible when bin diving.
 Config.diveparsetime = 12               -- Time for bindive skill check (NOTE: A higher time makes the skillcheck slower but generally easier)
 
 --3. RARE ITEMS?--
