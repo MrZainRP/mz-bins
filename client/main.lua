@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+
 local PlayerData = {}
 local isLoggedIn = false
 local percent    = false
@@ -19,8 +20,7 @@ closestBin = {
     'prop_dumpster_3a'
 }
 
-RegisterNetEvent("QBCore:Client:OnPlayerLoaded")
-AddEventHandler("QBCore:Client:OnPlayerLoaded", function()
+RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     PlayerJob = QBCore.Functions.GetPlayerData().job
     isLoggedIn = true
 end)
@@ -41,8 +41,7 @@ DrawText3Ds = function(x, y, z, text)
     ClearDrawOrigin()
 end
 
-RegisterNetEvent("mz-bins:SearchBin")
-AddEventHandler("mz-bins:SearchBin", function()
+RegisterNetEvent("mz-bins:SearchBin", function()
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
@@ -52,7 +51,7 @@ AddEventHandler("mz-bins:SearchBin", function()
         if DoesEntityExist(x) and not IsPedSittingInAnyVehicle(PlayerPedId()) then
             entity = x
             if not cachedBins[entity] then
-                if searching == false then 
+                if not searching then 
                     searching = true
                     if Config.skillcheck then 
                         local bindiveparse = math.random(Config.diveparselow, Config.diveparsehigh)
@@ -226,8 +225,7 @@ end
 --ALUMINUM--
 ------------
 
-RegisterNetEvent('mz-bins:client:BreakdownCans')
-AddEventHandler('mz-bins:client:BreakdownCans', function()
+RegisterNetEvent('mz-bins:client:BreakdownCans', function()
     if QBCore.Functions.HasItem("sodacan") then
         TriggerServerEvent("mz-bins:server:BreakdownCans")
     else
@@ -245,8 +243,7 @@ AddEventHandler('mz-bins:client:BreakdownCans', function()
     end
 end)
 
-RegisterNetEvent('mz-bins:client:BreakdownCansMinigame')
-AddEventHandler('mz-bins:client:BreakdownCansMinigame', function(source)
+RegisterNetEvent('mz-bins:client:BreakdownCansMinigame', function(source)
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     BreakdownCansMinigame(source)
 end)
@@ -344,8 +341,7 @@ end
 --PLASTIC--
 ------------
 
-RegisterNetEvent('mz-bins:client:BreakdownBottles')
-AddEventHandler('mz-bins:client:BreakdownBottles', function()
+RegisterNetEvent('mz-bins:client:BreakdownBottles', function()
     if QBCore.Functions.HasItem("emptybottle") then
         TriggerServerEvent("mz-bins:server:BreakdownBottles")
     else
@@ -363,8 +359,7 @@ AddEventHandler('mz-bins:client:BreakdownBottles', function()
     end
 end)
 
-RegisterNetEvent('mz-bins:client:BreakdownBottlesMinigame')
-AddEventHandler('mz-bins:client:BreakdownBottlesMinigame', function(source)
+RegisterNetEvent('mz-bins:client:BreakdownBottlesMinigame', function(source)
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     BreakdownBottlesMinigame(source)
 end)
@@ -412,26 +407,26 @@ function BreakdownBottlesMinigame(source)
             })
         end
     end, function()
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('Your hand slips and the plastic breaks into unusable parts...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("BOTTLES RUINED", "Your hand slips and the plastic breaks into unusable parts...", 3500, "error")
+        end
+        Wait(500)
+        if Config.mzskills then 
+            local deteriorate = -Config.bottlesXPloss
+            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
             if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('Your hand slips and the plastic breaks into unusable parts...', "error", 3500)
+                QBCore.Functions.Notify('-'..Config.bottlesXPloss.. 'XP to Searching', "error", 3500)
             elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("BOTTLES RUINED", "Your hand slips and the plastic breaks into unusable parts...", 3500, "error")
-            end
-            Wait(500)
-            if Config.mzskills then 
-                local deteriorate = -Config.bottlesXPloss
-                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-                if Config.NotifyType == 'qb' then
-                    QBCore.Functions.Notify('-'..Config.bottlesXPloss.. 'XP to Searching', "error", 3500)
-                elseif Config.NotifyType == "okok" then
-                    exports['okokNotify']:Alert("SKILLS", '-'..Config.bottlesXPloss.. 'XP to Searching', 3500, "error")
-                end   
-            end
-            FailedAttemps = 0
-            SucceededAttempts = 0
-            NeededAttempts = 0
-            craftprocesscheck = false
-            ClearPedTasks(PlayerPedId())
+                exports['okokNotify']:Alert("SKILLS", '-'..Config.bottlesXPloss.. 'XP to Searching', 3500, "error")
+            end   
+        end
+        FailedAttemps = 0
+        SucceededAttempts = 0
+        NeededAttempts = 0
+        craftprocesscheck = false
+        ClearPedTasks(PlayerPedId())
     end)
 end
 
@@ -462,8 +457,7 @@ end
 --PLASTIC 2--
 -------------
 
-RegisterNetEvent('mz-bins:client:BreakdownBottlecaps')
-AddEventHandler('mz-bins:client:BreakdownBottlecaps', function()
+RegisterNetEvent('mz-bins:client:BreakdownBottlecaps', function()
     if QBCore.Functions.HasItem("bottlecaps") then
         TriggerServerEvent("mz-bins:server:BreakdownBottlecaps")
     else
@@ -481,8 +475,7 @@ AddEventHandler('mz-bins:client:BreakdownBottlecaps', function()
     end
 end)
 
-RegisterNetEvent('mz-bins:client:BreakdownBottlecapsMinigame')
-AddEventHandler('mz-bins:client:BreakdownBottlecapsMinigame', function(source)
+RegisterNetEvent('mz-bins:client:BreakdownBottlecapsMinigame', function(source)
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     BreakdownBottlecapsMinigame(source)
 end)
@@ -530,26 +523,26 @@ function BreakdownBottlecapsMinigame(source)
             })
         end
     end, function()
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('The bottlecaps pop under the pressure... Ruined...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("BOTTLECAPS RUINED", "The bottlecaps pop under the pressure... Ruined...", 3500, "error")
+        end
+        Wait(500)
+        if Config.mzskills then 
+            local deteriorate = -Config.bottlecapsXPloss
+            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
             if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('The bottlecaps pop under the pressure... Ruined...', "error", 3500)
+                QBCore.Functions.Notify('-'..Config.bottlecapsXPloss.. 'XP to Searching', "error", 3500)
             elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("BOTTLECAPS RUINED", "The bottlecaps pop under the pressure... Ruined...", 3500, "error")
-            end
-            Wait(500)
-            if Config.mzskills then 
-                local deteriorate = -Config.bottlecapsXPloss
-                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-                if Config.NotifyType == 'qb' then
-                    QBCore.Functions.Notify('-'..Config.bottlecapsXPloss.. 'XP to Searching', "error", 3500)
-                elseif Config.NotifyType == "okok" then
-                    exports['okokNotify']:Alert("SKILLS", '-'..Config.bottlecapsXPloss.. 'XP to Searching', 3500, "error")
-                end   
-            end
-            FailedAttemps = 0
-            SucceededAttempts = 0
-            NeededAttempts = 0
-            craftprocesscheck = false
-            ClearPedTasks(PlayerPedId())
+                exports['okokNotify']:Alert("SKILLS", '-'..Config.bottlecapsXPloss.. 'XP to Searching', 3500, "error")
+            end   
+        end
+        FailedAttemps = 0
+        SucceededAttempts = 0
+        NeededAttempts = 0
+        craftprocesscheck = false
+        ClearPedTasks(PlayerPedId())
     end)
 end
 
@@ -580,8 +573,7 @@ end
 --GLASS--
 ---------
 
-RegisterNetEvent('mz-bins:client:BreakdownCup')
-AddEventHandler('mz-bins:client:BreakdownCup', function()
+RegisterNetEvent('mz-bins:client:BreakdownCup', function()
     if QBCore.Functions.HasItem("brokencup") then
         TriggerServerEvent("mz-bins:server:BreakdownCup")
     else
@@ -599,8 +591,7 @@ AddEventHandler('mz-bins:client:BreakdownCup', function()
     end
 end)
 
-RegisterNetEvent('mz-bins:client:BreakdownBrokencupMinigame')
-AddEventHandler('mz-bins:client:BreakdownBrokencupMinigame', function(source)
+RegisterNetEvent('mz-bins:client:BreakdownBrokencupMinigame', function(source)
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     BreakdownBrokencupMinigame(source)
 end)
@@ -648,26 +639,26 @@ function BreakdownBrokencupMinigame(source)
             })
         end
     end, function()
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify('The glass shatters into unuseable pieces...', "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("GLASS RUINED", "The glass shatters into unuseable pieces...", 3500, "error")
+        end
+        Wait(500)
+        if Config.mzskills then 
+            local deteriorate = -Config.brokencupXPloss
+            exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
             if Config.NotifyType == 'qb' then
-                QBCore.Functions.Notify('The glass shatters into unuseable pieces...', "error", 3500)
+                QBCore.Functions.Notify('-'..Config.brokencupXPloss.. 'XP to Searching', "error", 3500)
             elseif Config.NotifyType == "okok" then
-                exports['okokNotify']:Alert("GLASS RUINED", "The glass shatters into unuseable pieces...", 3500, "error")
-            end
-            Wait(500)
-            if Config.mzskills then 
-                local deteriorate = -Config.brokencupXPloss
-                exports["mz-skills"]:UpdateSkill("Searching", deteriorate)
-                if Config.NotifyType == 'qb' then
-                    QBCore.Functions.Notify('-'..Config.brokencupXPloss.. 'XP to Searching', "error", 3500)
-                elseif Config.NotifyType == "okok" then
-                    exports['okokNotify']:Alert("SKILLS", '-'..Config.brokencupXPloss.. 'XP to Searching', 3500, "error")
-                end   
-            end 
-            FailedAttemps = 0
-            SucceededAttempts = 0
-            NeededAttempts = 0
-            craftprocesscheck = false
-            ClearPedTasks(PlayerPedId())
+                exports['okokNotify']:Alert("SKILLS", '-'..Config.brokencupXPloss.. 'XP to Searching', 3500, "error")
+            end   
+        end 
+        FailedAttemps = 0
+        SucceededAttempts = 0
+        NeededAttempts = 0
+        craftprocesscheck = false
+        ClearPedTasks(PlayerPedId())
     end)
 end
 
@@ -711,52 +702,33 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
         local lvl0 = false
         --Skill check call for config.menu prices on items  
         exports["mz-skills"]:CheckSkill("Searching", 12800, function(hasskill)
-            if hasskill then
-                lvl8 = true
-            end
+            if hasskill then lvl8 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 6400, function(hasskill)
-            if hasskill then
-                lvl7 = true
-            end
+            if hasskill then lvl7 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 3200, function(hasskill)
-            if hasskill then
-                lvl6 = true
-            end
+            if hasskill then lvl6 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 1600, function(hasskill)
-            if hasskill then
-                lvl5 = true
-            end
+            if hasskill then lvl5 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 800, function(hasskill)
-            if hasskill then
-                lvl4 = true
-            end
+            if hasskill then lvl4 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 400, function(hasskill)
-            if hasskill then
-                lvl3 = true
-            end
+            if hasskill then lvl3 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 200, function(hasskill)
-            if hasskill then
-                lvl2 = true
-            end
+            if hasskill then lvl2 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 100, function(hasskill)
-            if hasskill then
-                lvl1 = true
-            end
+            if hasskill then lvl1 = true end
         end)
         exports["mz-skills"]:CheckSkill("Searching", 0, function(hasskill)
-            if hasskill then
-                lvl0 = true
-            end
+            if hasskill then lvl0 = true end
         end)
-        -- Menu call dependent on "Searching" XP level - if "mz-skills" is being used.
-        if lvl8 == true then
+        if lvl8 then
             TriggerEvent('mz-bins:client:openMenu9')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -764,7 +736,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("VIP BONUS", "Woah, its the veteran diver, give them double on everything! (100% PREMIUM)", 3500, "info")
             end 
-        elseif lvl7 == true then
+        elseif lvl7 then
             TriggerEvent('mz-bins:client:openMenu8')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -772,7 +744,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (75% PREMIUM)", 3500, "info")
             end 
-        elseif lvl6 == true then
+        elseif lvl6 then
             TriggerEvent('mz-bins:client:openMenu7')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -780,7 +752,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (60% PREMIUM)", 3500, "info")
             end 
-        elseif lvl5 == true then
+        elseif lvl5 then
             TriggerEvent('mz-bins:client:openMenu6')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -788,7 +760,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (50% PREMIUM)", 3500, "info")
             end 
-        elseif lvl4 == true then
+        elseif lvl4 then
             TriggerEvent('mz-bins:client:openMenu5')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -796,7 +768,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (40% PREMIUM)", 3500, "info")
             end 
-        elseif lvl3 == true then
+        elseif lvl3 then
             TriggerEvent('mz-bins:client:openMenu4')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -804,7 +776,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (30% PREMIUM)", 3500, "info")
             end 
-        elseif lvl2 == true then
+        elseif lvl2 then
             TriggerEvent('mz-bins:client:openMenu3')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -812,7 +784,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (20% PREMIUM)", 3500, "info")
             end 
-        elseif lvl1 == true then 
+        elseif lvl1 then 
             TriggerEvent('mz-bins:client:openMenu2')
             Wait(1000)
             if Config.NotifyType == 'qb' then
@@ -820,7 +792,7 @@ RegisterNetEvent('mz-bins:client:menuSelect', function()
             elseif Config.NotifyType == "okok" then
                 exports['okokNotify']:Alert("LOYALTY BONUS", "Hey, I\'ve seen you before, special buy prices for you. (10% PREMIUM)", 3500, "info")
             end 
-        elseif lvl0 == true then
+        elseif lvl0 then
             TriggerEvent('mz-bins:client:openMenu')
         end
     elseif not Config.mzskills then 
