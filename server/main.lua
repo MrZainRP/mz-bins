@@ -53,8 +53,7 @@ QBCore.Functions.CreateCallback('mz-bins:getItem', function(source, cb)
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetItemRare')
-AddEventHandler('mz-bins:server:GetItemRare', function()
+RegisterServerEvent('mz-bins:server:GetItemRare', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local chance2 = math.random(1, 200)
@@ -93,8 +92,7 @@ AddEventHandler('mz-bins:server:GetItemRare', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:getItem')
-AddEventHandler('mz-bins:getItem', function()
+RegisterServerEvent('mz-bins:getItem', function()
     QBCore.Functions.BanInjection(source, 'mz-bins (getItem)')
 end)
 
@@ -110,8 +108,7 @@ end)
 --ALUMINUM--
 ------------
 
-RegisterServerEvent('mz-bins:server:BreakdownCans')
-AddEventHandler('mz-bins:server:BreakdownCans', function()
+RegisterServerEvent('mz-bins:server:BreakdownCans', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local sodacan = Player.Functions.GetItemByName('sodacan')
@@ -132,8 +129,7 @@ AddEventHandler('mz-bins:server:BreakdownCans', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetAluminum')
-AddEventHandler('mz-bins:server:GetAluminum', function()
+RegisterServerEvent('mz-bins:server:GetAluminum', function()
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = math.random(Config.cansreturnlow, Config.cansreturnhigh)
     Player.Functions.AddItem("aluminum", amount)
@@ -144,8 +140,7 @@ end)
 --PLASTIC--
 ------------
 
-RegisterServerEvent('mz-bins:server:BreakdownBottles')
-AddEventHandler('mz-bins:server:BreakdownBottles', function()
+RegisterServerEvent('mz-bins:server:BreakdownBottles', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local emptybottle = Player.Functions.GetItemByName('emptybottle')
@@ -166,8 +161,7 @@ AddEventHandler('mz-bins:server:BreakdownBottles', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetPlastic')
-AddEventHandler('mz-bins:server:GetPlastic', function()
+RegisterServerEvent('mz-bins:server:GetPlastic', function()
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = math.random(Config.bottlesreturnlow, Config.bottlesreturnhigh)
     Player.Functions.AddItem("plastic", amount)
@@ -178,8 +172,7 @@ end)
 --PLASTIC 2--
 -------------
 
-RegisterServerEvent('mz-bins:server:BreakdownBottlecaps')
-AddEventHandler('mz-bins:server:BreakdownBottlecaps', function()
+RegisterServerEvent('mz-bins:server:BreakdownBottlecaps', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local bottlecaps = Player.Functions.GetItemByName('bottlecaps')
@@ -200,8 +193,7 @@ AddEventHandler('mz-bins:server:BreakdownBottlecaps', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetPlastic2')
-AddEventHandler('mz-bins:server:GetPlastic2', function()
+RegisterServerEvent('mz-bins:server:GetPlastic2', function()
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = math.random(Config.bottlecapsreturnlow, Config.bottlecapsreturnhigh)
     Player.Functions.AddItem("plastic", amount)
@@ -212,8 +204,7 @@ end)
 --GLASS--
 ---------
 
-RegisterServerEvent('mz-bins:server:BreakdownCup')
-AddEventHandler('mz-bins:server:BreakdownCup', function()
+RegisterServerEvent('mz-bins:server:BreakdownCup', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local brokencup = Player.Functions.GetItemByName('brokencup')
@@ -234,8 +225,7 @@ AddEventHandler('mz-bins:server:BreakdownCup', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetGlass')
-AddEventHandler('mz-bins:server:GetGlass', function()
+RegisterServerEvent('mz-bins:server:GetGlass', function()
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = math.random(Config.brokencupreturnlow , Config.brokencupreturnhigh)
     Player.Functions.AddItem("glass", amount)
@@ -281,8 +271,7 @@ QBCore.Functions.CreateUseableItem("wallet", function(source, item)
     TriggerClientEvent("mz-bins:client:walletOpen", source, item.name)
 end)
 
-RegisterServerEvent('mz-bins:server:walletReward')
-AddEventHandler('mz-bins:server:walletReward', function()
+RegisterServerEvent('mz-bins:server:walletReward', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local wallet = Player.Functions.GetItemByName('wallet')
