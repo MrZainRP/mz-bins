@@ -13,7 +13,7 @@ local Translations = {
         back = '⬅ Go Back',
         max = 'You currently hold %{value} of these.',
         submit = 'Exchange',
-        title = 'Trash \'n Treasure',
+        title = 'Connie\'s Trash \'n Treasure',
     }
 }
 
