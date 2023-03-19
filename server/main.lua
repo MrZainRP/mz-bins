@@ -8,88 +8,96 @@ local ItemList = {
     ["wallet"] = "wallet",
 }
 
-QBCore.Functions.CreateCallback('mz-bins:getItem', function(source, cb)
-	local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local chance = math.random(1, 200)
-    if chance > 0 and chance < 50 then
-        Player.Functions.AddItem(QBCore.Shared.Items["sodacan"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sodacan"], "add")
-    elseif chance > 49 and chance < 71 then
-        Player.Functions.AddItem(QBCore.Shared.Items["bottlecaps"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bottlecaps"], "add")
-    elseif chance > 70 and chance < 91 then
-        Player.Functions.AddItem(QBCore.Shared.Items["emptybottle"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["emptybottle"], "add")
-    elseif chance > 90 and chance < 116 then
-        Player.Functions.AddItem(QBCore.Shared.Items["brokencup"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["brokencup"], "add")
-    elseif chance > 115 and chance < 136 then
-        Player.Functions.AddItem(QBCore.Shared.Items["ace"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["ace"], "add")
-    elseif chance > 135 and chance < 156 then
-        Player.Functions.AddItem(QBCore.Shared.Items["crayons"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["crayons"], "add")
-    elseif chance > 155 and chance < 166 then
-        Player.Functions.AddItem(QBCore.Shared.Items["sunglasses"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sunglasses"], "add")
-    elseif chance > 166 and chance < 175 then
-        Player.Functions.AddItem(QBCore.Shared.Items["teddy"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["teddy"], "add")
-    elseif chance > 174 and chance < 182 then
-        Player.Functions.AddItem(QBCore.Shared.Items["fabric"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["fabric"], "add")
-    elseif chance > 181 and chance < 186 then
-        Player.Functions.AddItem(QBCore.Shared.Items["actiontoy"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["actiontoy"], "add")
-    elseif chance > 185 and chance < 201 then
-        Player.Functions.AddItem(QBCore.Shared.Items["bulletcasing"].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bulletcasing"], "add")
-    end
-    if Config.NotifyType == 'qb' then
-        TriggerClientEvent('QBCore:Notify', src, "This might be useful, nice!", 'success')
-    elseif Config.NotifyType == "okok" then
-        TriggerClientEvent('okokNotify:Alert', source, "YOU FOUND SOMETHING!", "This might be useful, nice!", 3500, 'success')
-    end
+QBCore.Functions.CreateCallback('mz-bins:getItem', function(source, cb, binCheck)
+    if not binCheck then 
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        local chance = math.random(1, 200)
+        if chance > 0 and chance < 50 then
+            Player.Functions.AddItem(QBCore.Shared.Items["sodacan"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sodacan"], "add")
+        elseif chance > 49 and chance < 71 then
+            Player.Functions.AddItem(QBCore.Shared.Items["bottlecaps"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bottlecaps"], "add")
+        elseif chance > 70 and chance < 91 then
+            Player.Functions.AddItem(QBCore.Shared.Items["emptybottle"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["emptybottle"], "add")
+        elseif chance > 90 and chance < 116 then
+            Player.Functions.AddItem(QBCore.Shared.Items["brokencup"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["brokencup"], "add")
+        elseif chance > 115 and chance < 136 then
+            Player.Functions.AddItem(QBCore.Shared.Items["ace"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["ace"], "add")
+        elseif chance > 135 and chance < 156 then
+            Player.Functions.AddItem(QBCore.Shared.Items["crayons"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["crayons"], "add")
+        elseif chance > 155 and chance < 166 then
+            Player.Functions.AddItem(QBCore.Shared.Items["sunglasses"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sunglasses"], "add")
+        elseif chance > 166 and chance < 175 then
+            Player.Functions.AddItem(QBCore.Shared.Items["teddy"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["teddy"], "add")
+        elseif chance > 174 and chance < 182 then
+            Player.Functions.AddItem(QBCore.Shared.Items["fabric"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["fabric"], "add")
+        elseif chance > 181 and chance < 186 then
+            Player.Functions.AddItem(QBCore.Shared.Items["actiontoy"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["actiontoy"], "add")
+        elseif chance > 185 and chance < 201 then
+            Player.Functions.AddItem(QBCore.Shared.Items["bulletcasing"].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bulletcasing"], "add")
+        end
+        if Config.NotifyType == 'qb' then
+            TriggerClientEvent('QBCore:Notify', src, "This might be useful, nice!", 'success')
+        elseif Config.NotifyType == "okok" then
+            TriggerClientEvent('okokNotify:Alert', source, "YOU FOUND SOMETHING!", "This might be useful, nice!", 3500, 'success')
+        end
+    else
+        print('Attempt to trigger "mz-bins:getItem" externally has been detected')
+    end 
 end)
 
-RegisterServerEvent('mz-bins:server:GetItemRare', function()
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local chance2 = math.random(1, 200)
-    if chance2 > 0 and chance2 <= 3 then
-        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem1].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem1], "add")
-        if Config.NotifyType == 'qb' then
-            TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem1..".", 'success')
-        elseif Config.NotifyType == "okok" then
-            TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem1..".", 3500, 'success')
+RegisterServerEvent('mz-bins:server:GetItemRare', function(binCheck)
+    if not binCheck then 
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        local chance2 = math.random(1, 200)
+        if chance2 > 0 and chance2 <= 3 then
+            Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem1].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem1], "add")
+            if Config.NotifyType == 'qb' then
+                TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem1..".", 'success')
+            elseif Config.NotifyType == "okok" then
+                TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem1..".", 3500, 'success')
+            end
+        elseif chance2 > 3 and chance2 <= 5 then
+            Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem2].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem2], "add")
+            if Config.NotifyType == 'qb' then
+                TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem2..".", 'success')
+            elseif Config.NotifyType == "okok" then
+                TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem2..".", 3500, 'success')
+            end
+        elseif chance2 == 6 then
+            Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem3].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem3], "add")
+            if Config.NotifyType == 'qb' then
+                TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem3..".", 'success')
+            elseif Config.NotifyType == "okok" then
+                TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem3..".", 3500, 'success')
+            end
+        elseif chance2 == 7 then
+            Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem4].name, 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem4], "add")
+            if Config.NotifyType == 'qb' then
+                TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem4..".", 'success')
+            elseif Config.NotifyType == "okok" then
+                TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem4..".", 3500, 'success')
+            end
         end
-    elseif chance2 > 3 and chance2 <= 5 then
-        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem2].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem2], "add")
-        if Config.NotifyType == 'qb' then
-            TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem2..".", 'success')
-        elseif Config.NotifyType == "okok" then
-            TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem2..".", 3500, 'success')
-        end
-    elseif chance2 == 6 then
-        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem3].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem3], "add")
-        if Config.NotifyType == 'qb' then
-            TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem3..".", 'success')
-        elseif Config.NotifyType == "okok" then
-            TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem3..".", 3500, 'success')
-        end
-    elseif chance2 == 7 then
-        Player.Functions.AddItem(QBCore.Shared.Items[Config.Rareitem4].name, 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Rareitem4], "add")
-        if Config.NotifyType == 'qb' then
-            TriggerClientEvent('QBCore:Notify', src, "Woah, you also found a "..Config.Rareitem4..".", 'success')
-        elseif Config.NotifyType == "okok" then
-            TriggerClientEvent('okokNotify:Alert', source, "NICE!", "Woah, you also found a "..Config.Rareitem4..".", 3500, 'success')
-        end
-    end
+    else
+        print('Attempt to trigger "mz-bins:server:GetItemRare" externally has been detected')
+    end 
 end)
 
 RegisterServerEvent('mz-bins:getItem', function()
@@ -99,10 +107,6 @@ end)
 ------------
 --CRAFTING--
 ------------
-
---------------------
---BREAK DOWN PARTS--
---------------------
 
 ------------
 --ALUMINUM--
@@ -129,11 +133,15 @@ RegisterServerEvent('mz-bins:server:BreakdownCans', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetAluminum', function()
-    local Player = QBCore.Functions.GetPlayer(source)
-    local amount = math.random(Config.cansreturnlow, Config.cansreturnhigh)
-    Player.Functions.AddItem("aluminum", amount)
-    TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['aluminum'], "add", amount)
+RegisterServerEvent('mz-bins:server:GetAluminum', function(alumniumCheck)
+    if not alumniumCheck then 
+        local Player = QBCore.Functions.GetPlayer(source)
+        local amount = math.random(Config.cansreturnlow, Config.cansreturnhigh)
+        Player.Functions.AddItem("aluminum", amount)
+        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['aluminum'], "add", amount)
+    else
+        print('Attempt to trigger "mz-bins:server:GetAluminum" externally has been detected')
+    end   
 end)
 
 ------------
@@ -161,11 +169,15 @@ RegisterServerEvent('mz-bins:server:BreakdownBottles', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetPlastic', function()
-    local Player = QBCore.Functions.GetPlayer(source)
-    local amount = math.random(Config.bottlesreturnlow, Config.bottlesreturnhigh)
-    Player.Functions.AddItem("plastic", amount)
-    TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['plastic'], "add", amount)
+RegisterServerEvent('mz-bins:server:GetPlastic', function(plasticCheck)
+    if not plasticCheck then 
+        local Player = QBCore.Functions.GetPlayer(source)
+        local amount = math.random(Config.bottlesreturnlow, Config.bottlesreturnhigh)
+        Player.Functions.AddItem("plastic", amount)
+        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['plastic'], "add", amount)
+    else
+        print('Attempt to trigger "mz-bins:server:GetPlastic" externally has been detected')
+    end
 end)
 
 -------------
@@ -193,11 +205,15 @@ RegisterServerEvent('mz-bins:server:BreakdownBottlecaps', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetPlastic2', function()
-    local Player = QBCore.Functions.GetPlayer(source)
-    local amount = math.random(Config.bottlecapsreturnlow, Config.bottlecapsreturnhigh)
-    Player.Functions.AddItem("plastic", amount)
-    TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['plastic'], "add", amount)
+RegisterServerEvent('mz-bins:server:GetPlastic2', function(plasticCheck)
+    if not plasticCheck then
+        local Player = QBCore.Functions.GetPlayer(source)
+        local amount = math.random(Config.bottlecapsreturnlow, Config.bottlecapsreturnhigh)
+        Player.Functions.AddItem("plastic", amount)
+        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['plastic'], "add", amount)
+    else
+        print('Attempt to trigger "mz-bins:server:GetPlastic2" externally has been detected')
+    end
 end)
 
 ---------
@@ -225,11 +241,15 @@ RegisterServerEvent('mz-bins:server:BreakdownCup', function()
     end
 end)
 
-RegisterServerEvent('mz-bins:server:GetGlass', function()
-    local Player = QBCore.Functions.GetPlayer(source)
-    local amount = math.random(Config.brokencupreturnlow , Config.brokencupreturnhigh)
-    Player.Functions.AddItem("glass", amount)
-    TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['glass'], "add", amount)
+RegisterServerEvent('mz-bins:server:GetGlass', function(glassCheck)
+    if not glassCheck then 
+        local Player = QBCore.Functions.GetPlayer(source)
+        local amount = math.random(Config.brokencupreturnlow , Config.brokencupreturnhigh)
+        Player.Functions.AddItem("glass", amount)
+        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['glass'], "add", amount)
+    else
+        print('Attempt to trigger "mz-bins:server:GetGlass" externally has been detected')
+    end
 end)
 
 ----------

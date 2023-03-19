@@ -8,26 +8,44 @@ Config = Config or {}
 
 Config.NotifyType = 'okok'              -- notification type: 'qb' for qb-core standard notifications, 'okok' for okokNotify notifications
 
---------------
---BIN DIVING--
---------------
+-------------------------
+--BIN DIVING PROPERTIES--
+-------------------------
 
---1. MZ-SKILLS?--
-Config.mzskills = false                 -- change to 'false' to utilise resource without using mz-skills re: "Searching" skill
+--Fail function + chance of failure
+Config.FailEnabled = true               -- change to "false" if you do not want a player to have a chance to find nothing from searching a bin
+Config.FailChance = 5                   -- Percentage chance for a player to fail to find anything useful upon a successful search of a bin
 
---If you choose to use mz-skills, the following parameters will apply:
+--Time it takes to search bin:
+Config.SearchTimeLow = 3                -- Lowest time it will take to search a bin (in seconds)
+Config.SearchTimeHigh = 5               -- Highest time it will take to search a bin (in seconds)
+
+-------------
+--MZ-SKILLS--
+-------------
+
+Config.mzskills = true                  -- change to 'false' to utilise resource without using mz-skills re: "Searching" skill
+-- If "Config.mzskills = true", the following parameters will apply:
+
+Config.BinSkill = "Searching"           -- name of the skill that will apply when using mz-bins (must be the same as a skill from mz-skills/config.lua)
+
 Config.diveXPlow = 1                    -- Lowest amount of XP player will get for dumpster diving
 Config.diveXPhigh = 3                   -- Highest amount of XP player will get for dumpster diving
 Config.diveXPloss = 2                   -- Amount of XP lost for failing skillcheck (if skillcheck is enabled)
 
---2. SKILLCHECK?--
-Config.skillcheck = true               -- change to 'false' to remove the skillcheck connected to each bin dive.
+-----------------------
+--BIN DIVE SKILLCHECK--
+-----------------------
 
+Config.skillcheck = true               -- change to 'false' to remove the skillcheck connected to each bin dive.
 --If you chose to use a skillcheck, the following parameters will apply
 Config.diveparse = 1                    -- Lowest number of skillcheck parses possible when bin diving.
 Config.diveparsetime = 12               -- Time for bindive skill check (NOTE: A higher time makes the skillcheck slower but generally easier)
 
---3. RARE ITEMS?--
+--------------
+--RARE ITEMS--
+--------------
+
 Config.rareitems = true                 -- change to 'false' to disable (NOTE: Rare drops are in addition to standard drops, not in substitution)
 
 --If you choose to have a potential for rare items to drop from searching bins, the following properties apply:
@@ -36,18 +54,11 @@ Config.Rareitem2 = "blankusb"           -- 1% chance to find when searching a bi
 Config.Rareitem3 = "pistol1"            -- 0.5% chance to find when searching a bin
 Config.Rareitem4 = "screwdriver"        -- 0.5% chance to find when searching a bin
 
---4. GENERAL BIN SEARCHING PROPERTIES--
---Time it takes to search bin:
-Config.SearchTimeLow = 3                -- Lowest time it will take to search a bin (in seconds)
-Config.SearchTimeHigh = 5               -- Highest time it will take to search a bin (in seconds)
-
---Fail function + chance of failure
-Config.FailEnabled = "yes"              -- change to "no" if you do not want a player to have a chance to find nothing from searching a bin
-Config.FailChance = 10                  -- Percentage chance for a player to fail to find anything useful upon a successful search of a bin
-
 ------------
 --CRAFTING--
 ------------
+
+Config.CraftSkillCheck = true           -- Change to false to disable a skillcheck for each crafting component
 
 --1. CRUSHING CANS
 Config.canslow = 3                      -- Lowest number of skillchecks to crush cans.
@@ -55,7 +66,7 @@ Config.canshigh = 5                     -- Highest number of skillchecks to crus
 Config.canstimelow = 6                  -- Lowest time (in seconds) to crush cans. 
 Config.canstimehigh = 10                -- Highest time (in seconds) to crush cans.
 
---If using "mz-skills" thje following XP parameters will apply:
+--If using "mz-skills" the following XP parameters will apply:
 Config.cansXPlow = 3                    -- Lowest amount of "Searching" XP gained from crushing cans. 
 Config.cansXPhigh = 6                   -- Highest amount of "Searching" XP gained from crushing cans. 
 Config.cansXPloss = 3                   -- Amount of "Searching" XP lost from failing to crush cans. 
@@ -73,7 +84,7 @@ Config.bottleshigh = 5                  -- Highest number of skillchecks to crus
 Config.bottlestimelow = 6               -- Lowest time (in seconds) to crush bottles. 
 Config.bottlestimehigh = 10             -- Highest time (in seconds) to crush bottles. 
 
---If using "mz-skills" thje following XP parameters will apply:
+--If using "mz-skills" the following XP parameters will apply:
 Config.bottlesXPlow = 3                 -- Lowest amount of "Searching" XP gained from crushing bottles. 
 Config.bottlesXPhigh = 6                -- Highest amount of "Searching" XP gained from crushing bottles. 
 Config.bottlesXPloss = 3                -- Amount of "Searching" XP lost from failing to crush bottles. 
@@ -91,7 +102,7 @@ Config.bottlecapshigh = 7               -- Highest number of skillchecks to crus
 Config.bottlecapstimelow = 6            -- Lowest time (in seconds) to crush bottlecaps. 
 Config.bottlecapstimehigh = 10          -- Highest time (in seconds) to crush bottlecaps. 
 
---If using "mz-skills" thje following XP parameters will apply:
+--If using "mz-skills" the following XP parameters will apply:
 Config.bottlecapsXPlow = 3              -- Lowest amount of "Searching" XP gained from crushing bottlecaps. 
 Config.bottlecapsXPhigh = 6             -- Highest amount of "Searching" XP gained from crushing bottlecaps. 
 Config.bottlecapsXPloss = 3             -- Amount of "Searching" XP lost from failing to crush bottlecaps. 
@@ -109,7 +120,7 @@ Config.brokencuphigh = 7                -- Highest number of skillchecks to crus
 Config.brokencuptimelow = 6             -- Lowest time (in seconds) to crush broken cups.
 Config.brokencuptimehigh = 10           -- Highest time (in seconds) to crush broken cups.
 
---If using "mz-skills" thje following XP parameters will apply:
+--If using "mz-skills" the following XP parameters will apply:
 Config.brokencupXPlow = 4               -- Lowest amount of "Searching" XP gained from crushing broken cups.
 Config.brokencupXPhigh = 7              -- Highest amount of "Searching" XP gained from crushing broken cups.
 Config.brokencupXPloss = 3              -- Amount of "Searching" XP lost from failing to crush broken cups.
@@ -123,7 +134,7 @@ Config.brokencupreturnhigh = 7          -- Highest return for crushing broken cu
 
 --OBJECTS--
 
--- Trash objects player can interact with - [add more props to this list if you wish to expand the bin searching function to those props]
+-- Trash objects player can interact with - add more props to this list if you wish to expand the bin searching function to those props
 Config.Objects = {
     "prop_dumpster_01a",
     "prop_dumpster_01a",
@@ -134,6 +145,7 @@ Config.Objects = {
 -----------------
 --SELLING ITEMS--
 -----------------
+
 Config.SellLocation = { 
 -- PLEASE NOTE: If you change this - be sure to also change the details for the "sellbinitems" boxZone in client/main.lua. 
 -- Those details should match the details in this config variable.
