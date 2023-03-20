@@ -1161,22 +1161,7 @@ CreateThread(function()
               parameters = {},
               icon = "fas fa-search",
               label = "Search through trash",
-              job = {
-                ["unemployed"] = 0,
-                ["police"] = 0,
-                ["ambulance"] = 0,
-                ['realestate'] = 0,
-                ['taxi'] = 0,
-                ['bus'] = 0, 
-                ['cardealer'] = 0, 
-                ['mechanic'] = 0, 
-                ['judge'] = 0, 
-                ['lawyer'] = 0,
-                ['reporter'] = 0,
-                ['tow'] = 0,
-                ['vineyard'] = 0,
-                ['hotdog'] = 0,
-                }
+              excludejob = 'garbage',
             },
         },
     distance = 1.0
