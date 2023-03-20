@@ -26,6 +26,7 @@
 
 3. Add the following items to qb-core/shared/items.lua (NOTE: IF YOU ARE RUNNING MZ-SCRAP THERE IS NO NEED TO ADD THE FIRST 3 ITEMS WHICH WILL ALREADY BE IN YOUR ITEMS.LUA):
 
+```lua
 	['screwdriver'] 				 = {['name'] = 'screwdriver', 			  		['label'] = 'Screwdriver', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'screwdriver.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'A flathead screwdriver. I mean sure the handle is a bit worn but this thing probably works.'},
 	['wd40'] 				 	 	 = {['name'] = 'wd40', 			    			['label'] = 'WD-40', 					['weight'] = 250, 		['type'] = 'item', 		['image'] = 'wd40.png', 				['unique'] = true, 		['useable'] = false, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'A chemical compound with multiple purposes, including the removal of corrosion.'},
 	["pistol1"] 					 = {["name"] = "pistol1", 						["label"] = "Pistol Grip", 				["weight"] = 100, 		["type"] = "item", 		["image"] = "pistol1.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "The barrel of a Walther P-99 Pistol."},
@@ -43,6 +44,7 @@
 	["crayons"] 			 	     = {["name"] = "crayons", 						["label"] = "Crayons", 					["weight"] = 100, 		["type"] = "item", 		["image"] = "crayons.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A small set of pastel coloured crayons, used to decorate illustrations. Stay within the lines!"},
 	["teddy"] 			 	     	 = {["name"] = "teddy", 						["label"] = "Teddy bear", 				["weight"] = 150, 		["type"] = "item", 		["image"] = "teddy.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A teddy bear that appears to be unwanted, still has the tag on it and everything."},
 	["fabric"] 			 	     	 = {["name"] = "fabric", 						["label"] = "Fabric scrap", 			["weight"] = 150, 		["type"] = "item", 		["image"] = "fabric.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "Looks like someone has thrown an old strip of fabric, must have bought too much?"},
+```
 
 4. Add the images which appear in the "images" folder to your inventory images folder. If using lj-inventory, add the images to: lj-inventory/html/images/
 
