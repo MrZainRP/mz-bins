@@ -20,6 +20,7 @@ local Translations = {
         needcups = 'You need something glass to process...', 
         cupsruined = 'The glass shatters into unuseable pieces...', 
         cupsxpdown = '-%{value}XP to %{value2}.',
+        nocraft = "You have no material on you capable of being crafted..."
     },
     success = {
         sold = 'You have sold %{value2} many %{value}s for a total of $%{value3}',
@@ -27,6 +28,7 @@ local Translations = {
         crushbottles = "You begin crushing the plastic bottles...",
         processcaps = "You begin processing the bottlecaps...",
         workcups = 'You begin crushing the scrap glass...', 
+        yescraft = "Yes you do, please use this workbench again."
     },
     info = {
         sell = 'Sell Items',
@@ -81,6 +83,8 @@ local Translations = {
         menu3 = "LOYALTY BONUS",
         menu2 = "LOYALTY BONUS",
         negative = "NEGATIVE?",
+        nocraft = "NO MATERIALS?",
+        yescraft = "MATERIALS FOUNDS!",
     },
 }
 

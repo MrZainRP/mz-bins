@@ -10,7 +10,7 @@ author 'Mr_Zain#4139'
 
 description 'mz-bins - a bin diving resource with crafting + sale components (with or without mz-skill integration)'
 
-version '1.4.0'
+version '1.4.5'
 
 shared_scripts {
 	'@qb-core/shared/locale.lua',

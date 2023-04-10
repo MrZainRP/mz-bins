@@ -11,6 +11,11 @@ local FailedAttemps = 0
 local craftcheck = false
 local craftprocesscheck = false
 
+local hascans = false 
+local hasbottles = false 
+local hasbottlecaps = false 
+local hascups = false 
+
 cachedBins = {}
 
 closestBin = {
@@ -20,11 +25,80 @@ closestBin = {
     'prop_dumpster_3a'
 }
 
+AddEventHandler('onResourceStart', function(resource)
+    if GetCurrentResourceName() == resource then
+        PlayerJob = QBCore.Functions.GetPlayerData().job
+    end
+end)
+
 RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     PlayerJob = QBCore.Functions.GetPlayerData().job
     isLoggedIn = true
 end)
 
+CreateThread(function()
+    exports['qb-target']:AddBoxZone("BinParts", vector3(-1156.22, -1999.3, 13.18), 3.8, 1, {
+        name = "BinParts",
+        heading = 314,
+        debugPoly = false,
+        minZ = 9.78,
+        maxZ = 13.78,
+        }, {
+            options = { 
+            {
+                num = 1, 
+                type = "client",
+                event = "mz-bins:client:BreakdownCans",
+                icon = 'fas fa-compress-alt',
+                label = 'Process old cans',
+                canInteract = function()
+                    return hascans
+                end,
+            },
+            {
+                num = 2,
+                type = "client",
+                event = "mz-bins:client:BreakdownBottles",
+                icon = 'fas fa-wine-bottle',
+                label = 'Crush empty bottles',
+                canInteract = function()
+                    return hasbottles
+                end,
+            },
+            {
+                num = 3,
+                type = "client",
+                event = "mz-bins:client:BreakdownBottlecaps",
+                icon = 'fa-solid fa-circle',
+                label = 'Process bottlecaps',
+                canInteract = function()
+                    return hasbottlecaps
+                end,
+            },
+            {
+                num = 4,
+                type = "client",
+                event = "mz-bins:client:BreakdownCup",
+                icon = 'fas fa-glass',
+                label = 'Process glass',
+                canInteract = function()
+                    return hascups
+                end,
+            },
+            {
+                num = 5,
+                type = "client",
+                event = "mz-bins:client:NoCrafting",
+                icon = 'fas fa-glass',
+                label = 'Do you have materials to process?',
+                canInteract = function()
+                    return (not hascans) and (not hasbottles) and (not hascups) and (not hasbottlecaps)
+                end,
+            },
+        },
+        distance = 1.2,
+    })
+end)
 
 DrawText3Ds = function(x, y, z, text)
 	SetTextScale(0.35, 0.35)
@@ -239,10 +313,10 @@ local Working = false
 
 RegisterNetEvent('mz-bins:client:BreakdownCans', function()
     if not Working then 
-        Working = true
         if QBCore.Functions.HasItem("sodacan") then
             TriggerServerEvent("mz-bins:server:BreakdownCans")
         else
+            hascans = false
             local requiredItems = {
                 [1] = {name = QBCore.Shared.Items["sodacan"]["name"], image = QBCore.Shared.Items["sodacan"]["image"]}, 
             }  
@@ -265,6 +339,8 @@ RegisterNetEvent('mz-bins:client:BreakdownCans', function()
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownCansMinigame', function(source)
+    Working = true
+    hascans = false
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     if Config.CraftSkillCheck then 
         BreakdownCansMinigame(source)
@@ -376,10 +452,10 @@ local plasticCheck = true
 
 RegisterNetEvent('mz-bins:client:BreakdownBottles', function()
     if not Working then 
-        Working = true
         if QBCore.Functions.HasItem("emptybottle") then
             TriggerServerEvent("mz-bins:server:BreakdownBottles")
         else
+            hasbottles = false 
             local requiredItems = {
                 [1] = {name = QBCore.Shared.Items["emptybottle"]["name"], image = QBCore.Shared.Items["emptybottle"]["image"]}, 
             }  
@@ -402,6 +478,8 @@ RegisterNetEvent('mz-bins:client:BreakdownBottles', function()
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownBottlesMinigame', function(source)
+    Working = true
+    hasbottles = false
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     if Config.CraftSkillCheck then 
         BreakdownBottlesMinigame(source)
@@ -508,10 +586,10 @@ end
 
 RegisterNetEvent('mz-bins:client:BreakdownBottlecaps', function()
     if not Working then 
-        Working = true
         if QBCore.Functions.HasItem("bottlecaps") then
             TriggerServerEvent("mz-bins:server:BreakdownBottlecaps")
         else
+            hasbottlecaps = false
             local requiredItems = {
                 [1] = {name = QBCore.Shared.Items["bottlecaps"]["name"], image = QBCore.Shared.Items["bottlecaps"]["image"]}, 
             }  
@@ -534,6 +612,8 @@ RegisterNetEvent('mz-bins:client:BreakdownBottlecaps', function()
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownBottlecapsMinigame', function(source)
+    Working = true
+    hasbottlecaps = false
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     if Config.CraftSkillCheck then
         BreakdownBottlecapsMinigame(source)
@@ -641,12 +721,12 @@ end
 
 local glassCheck = true
 
-RegisterNetEvent('mz-bins:client:BreakdownCup', function()
+RegisterNetEvent('mz-bins:client:BreakdownCup', function() 
     if not Working then 
-        Working = true
         if QBCore.Functions.HasItem("brokencup") then
             TriggerServerEvent("mz-bins:server:BreakdownCup")
         else
+            hascups = false 
             local requiredItems = {
                 [1] = {name = QBCore.Shared.Items["brokencup"]["name"], image = QBCore.Shared.Items["brokencup"]["image"]}, 
             }  
@@ -669,6 +749,8 @@ RegisterNetEvent('mz-bins:client:BreakdownCup', function()
 end)
 
 RegisterNetEvent('mz-bins:client:BreakdownBrokencupMinigame', function(source)
+    Working = true
+    hascups = false
     TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
     if Config.CraftSkillCheck then
         BreakdownBrokencupMinigame(source)
@@ -768,6 +850,39 @@ function BreakBrokencupProcess()
         end  
     end)
 end
+
+------------
+--NO CRAFT--
+------------
+
+
+RegisterNetEvent('mz-bins:client:NoCrafting', function()
+    if QBCore.Functions.HasItem("sodacan") then
+        hascans = true 
+    end
+    if QBCore.Functions.HasItem("emptybottle") then
+        hasbottles = true 
+    end
+    if QBCore.Functions.HasItem("bottlecaps") then
+        hasbottlecaps = true 
+    end
+    if QBCore.Functions.HasItem("brokencup") then
+        hascups = true 
+    end
+    if hascans or hasbottles or hasbottlecaps or hascups then 
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t('success.yescraft'),"success", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert(Lang:t('label.yescraft'), Lang:t('success.yescraft'), 3500, "success")
+        end 
+    else 
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t('error.nocraft'),"error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert(Lang:t('label.nocraft'), Lang:t('error.nocraft'), 3500, "error")
+        end 
+    end 
+end)
 
 --------------
 --SELL ITEMS--
@@ -1161,53 +1276,26 @@ CreateThread(function()
               parameters = {},
               icon = "fas fa-search",
               label = "Search through trash",
-              excludejob = 'garbage',
+              job = {
+                ["unemployed"] = 0,
+                ["police"] = 0,
+                ["ambulance"] = 0,
+                ['realestate'] = 0,
+                ['taxi'] = 0,
+                ['bus'] = 0, 
+                ['cardealer'] = 0, 
+                ['mechanic'] = 0, 
+                ['judge'] = 0, 
+                ['lawyer'] = 0,
+                ['reporter'] = 0,
+                ['tow'] = 0,
+                ['vineyard'] = 0,
+                ['hotdog'] = 0,
+                }
             },
         },
     distance = 1.0
     })  
- end)
-
-CreateThread(function()
-    exports['qb-target']:AddBoxZone("BinParts", vector3(-1156.22, -1999.3, 13.18), 3.8, 1, {
-        name = "BinParts",
-        heading = 314,
-        debugPoly = false,
-        minZ = 9.78,
-        maxZ = 13.78,
-        }, {
-            options = { 
-            {
-                num = 1, 
-                type = "client",
-                event = "mz-bins:client:BreakdownCans",
-                icon = 'fas fa-compress-alt',
-                label = 'Process old cans'
-            },
-            {
-                num = 2,
-                type = "client",
-                event = "mz-bins:client:BreakdownBottles",
-                icon = 'fas fa-wine-bottle',
-                label = 'Crush empty bottles'
-            },
-            {
-                num = 3,
-                type = "client",
-                event = "mz-bins:client:BreakdownBottlecaps",
-                icon = 'fa-solid fa-circle',
-                label = 'Process bottlecaps'
-            },
-            {
-                num = 4,
-                type = "client",
-                event = "mz-bins:client:BreakdownCup",
-                icon = 'fas fa-glass',
-                label = 'Process glass'
-            },
-        },
-        distance = 1.2,
-    })
 end)
 
 CreateThread(function()
