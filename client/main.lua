@@ -11,6 +11,8 @@ local FailedAttemps = 0
 local craftcheck = false
 local craftprocesscheck = false
 
+local binparse 
+
 local hascans = false 
 local hasbottles = false 
 local hasbottlecaps = false 
@@ -28,6 +30,30 @@ closestBin = {
 AddEventHandler('onResourceStart', function(resource)
     if GetCurrentResourceName() == resource then
         PlayerJob = QBCore.Functions.GetPlayerData().job
+        TriggerEvent('mz-bins:client:NoCrafting')
+        while binparse do 
+            if QBCore.Functions.HasItem("sodacan") then
+                hascans = true 
+            else 
+                hascans = false 
+            end
+            if QBCore.Functions.HasItem("emptybottle") then
+                hasbottles = true 
+            else 
+                hasbottles = false  
+            end
+            if QBCore.Functions.HasItem("bottlecaps") then
+                hasbottlecaps = true 
+            else 
+                hasbottlecaps = false 
+            end
+            if QBCore.Functions.HasItem("brokencup") then
+                hascups = true
+            else 
+                hascups = false 
+            end
+            Wait(2000)
+        end 
     end
 end)
 
@@ -855,6 +881,7 @@ end
 --NO CRAFT--
 ------------
 
+local loadparse = true
 
 RegisterNetEvent('mz-bins:client:NoCrafting', function()
     if QBCore.Functions.HasItem("sodacan") then
@@ -869,19 +896,22 @@ RegisterNetEvent('mz-bins:client:NoCrafting', function()
     if QBCore.Functions.HasItem("brokencup") then
         hascups = true 
     end
-    if hascans or hasbottles or hasbottlecaps or hascups then 
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify(Lang:t('success.yescraft'),"success", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert(Lang:t('label.yescraft'), Lang:t('success.yescraft'), 3500, "success")
-        end 
-    else 
-        if Config.NotifyType == 'qb' then
-            QBCore.Functions.Notify(Lang:t('error.nocraft'),"error", 3500)
-        elseif Config.NotifyType == "okok" then
-            exports['okokNotify']:Alert(Lang:t('label.nocraft'), Lang:t('error.nocraft'), 3500, "error")
+    if not loadparse then 
+        if hascans or hasbottles or hasbottlecaps or hascups then 
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify(Lang:t('success.yescraft'),"success", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert(Lang:t('label.yescraft'), Lang:t('success.yescraft'), 3500, "success")
+            end 
+        else 
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify(Lang:t('error.nocraft'),"error", 3500)
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert(Lang:t('label.nocraft'), Lang:t('error.nocraft'), 3500, "error")
+            end 
         end 
     end 
+    loadparse = false 
 end)
 
 --------------
