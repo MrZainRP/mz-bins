@@ -52,7 +52,7 @@ AddEventHandler('onResourceStart', function(resource)
             else 
                 hascups = false 
             end
-            Wait(2000)
+            Wait(3000)
         end 
     end
 end)
