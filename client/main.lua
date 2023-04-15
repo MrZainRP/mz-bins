@@ -52,7 +52,7 @@ AddEventHandler('onResourceStart', function(resource)
             else 
                 hascups = false 
             end
-            Wait(3000)
+            Wait(2000)
         end 
     end
 end)
@@ -565,6 +565,7 @@ function BreakdownBottlesMinigame(source)
         SucceededAttempts = 0
         NeededAttempts = 0
         craftprocesscheck = false
+        Working = false 
         ClearPedTasks(PlayerPedId())
     end)
 end
@@ -699,6 +700,7 @@ function BreakdownBottlecapsMinigame(source)
         SucceededAttempts = 0
         NeededAttempts = 0
         craftprocesscheck = false
+        Working = false 
         ClearPedTasks(PlayerPedId())
     end)
 end
@@ -836,6 +838,7 @@ function BreakdownBrokencupMinigame(source)
         SucceededAttempts = 0
         NeededAttempts = 0
         craftprocesscheck = false
+        Working = false 
         ClearPedTasks(PlayerPedId())
     end)
 end
