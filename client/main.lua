@@ -333,6 +333,10 @@ local Working = false
 --BREAK DOWN PARTS--
 --------------------
 
+RegisterNetEvent('mz-bins:client:emoteCancel', function()
+    TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+end)
+
 ------------
 --ALUMINUM--
 ------------

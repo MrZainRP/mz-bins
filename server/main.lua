@@ -123,6 +123,7 @@ RegisterServerEvent('mz-bins:server:BreakdownCans', function()
                 TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['sodacan'], "remove", Config.cansamount)
                 TriggerClientEvent("mz-bins:client:BreakdownCansMinigame", src)
             else
+                TriggerClientEvent('mz-bins:client:emoteCancel', src)
                 if Config.NotifyType == 'qb' then
                     TriggerClientEvent('QBCore:Notify', src, "You do not have enough soda cans to press (Need "..Config.cansamount..")", 'error')
                 elseif Config.NotifyType == "okok" then
@@ -159,6 +160,7 @@ RegisterServerEvent('mz-bins:server:BreakdownBottles', function()
                 TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['emptybottle'], "remove", Config.bottlesamount)
                 TriggerClientEvent("mz-bins:client:BreakdownBottlesMinigame", src)
             else
+                TriggerClientEvent('mz-bins:client:emoteCancel', src)
                 if Config.NotifyType == 'qb' then
                     TriggerClientEvent('QBCore:Notify', src, "You do not have enough empty bottles to crush (Need "..Config.bottlesamount..")", 'error')
                 elseif Config.NotifyType == "okok" then
@@ -195,6 +197,7 @@ RegisterServerEvent('mz-bins:server:BreakdownBottlecaps', function()
                 TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['bottlecaps'], "remove", Config.bottlecapsamount)
                 TriggerClientEvent("mz-bins:client:BreakdownBottlecapsMinigame", src)
             else
+                TriggerClientEvent('mz-bins:client:emoteCancel', src)
                 if Config.NotifyType == 'qb' then
                     TriggerClientEvent('QBCore:Notify', src, "You do not have enough empty bottles to crush (Need "..Config.bottlecapsamount..")", 'error')
                 elseif Config.NotifyType == "okok" then
@@ -231,6 +234,7 @@ RegisterServerEvent('mz-bins:server:BreakdownCup', function()
                 TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['brokencup'], "remove", Config.brokencupamount)
                 TriggerClientEvent("mz-bins:client:BreakdownBrokencupMinigame", src)
             else
+                TriggerClientEvent('mz-bins:client:emoteCancel', src)
                 if Config.NotifyType == 'qb' then
                     TriggerClientEvent('QBCore:Notify', src, "You do not have enough glass cups (Need "..Config.brokencupamount..")", 'error')
                 elseif Config.NotifyType == "okok" then
