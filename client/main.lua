@@ -63,8 +63,8 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
 end)
 
 CreateThread(function()
-    exports['qb-target']:AddBoxZone("BinParts", vector3(-1156.22, -1999.3, 13.18), 3.8, 1, {
-        name = "BinParts",
+    exports['qb-target']:AddBoxZone("craftbinparts", vector3(-1156.22, -1999.3, 13.18), 3.8, 1, {
+        name = "craftbinparts",
         heading = 314,
         debugPoly = false,
         minZ = 9.78,
@@ -340,6 +340,7 @@ local Working = false
 RegisterNetEvent('mz-bins:client:BreakdownCans', function()
     if not Working then 
         if QBCore.Functions.HasItem("sodacan") then
+            TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
             TriggerServerEvent("mz-bins:server:BreakdownCans")
         else
             hascans = false
@@ -427,6 +428,7 @@ function BreakdownCansMinigame(source)
         SucceededAttempts = 0
         NeededAttempts = 0
         craftprocesscheck = false
+        Working = false
         ClearPedTasks(PlayerPedId())
     end)
 end
@@ -479,6 +481,7 @@ local plasticCheck = true
 RegisterNetEvent('mz-bins:client:BreakdownBottles', function()
     if not Working then 
         if QBCore.Functions.HasItem("emptybottle") then
+            TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
             TriggerServerEvent("mz-bins:server:BreakdownBottles")
         else
             hasbottles = false 
@@ -614,6 +617,7 @@ end
 RegisterNetEvent('mz-bins:client:BreakdownBottlecaps', function()
     if not Working then 
         if QBCore.Functions.HasItem("bottlecaps") then
+            TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
             TriggerServerEvent("mz-bins:server:BreakdownBottlecaps")
         else
             hasbottlecaps = false
@@ -752,6 +756,7 @@ local glassCheck = true
 RegisterNetEvent('mz-bins:client:BreakdownCup', function() 
     if not Working then 
         if QBCore.Functions.HasItem("brokencup") then
+            TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
             TriggerServerEvent("mz-bins:server:BreakdownCup")
         else
             hascups = false 
