@@ -319,7 +319,8 @@ openBin = function(entity)
             QBCore.Functions.Notify(Lang:t('error.cancelled'), "error", 3500)
         elseif Config.NotifyType == "okok" then
             exports['okokNotify']:Alert(Lang:t('label.cancelled'), Lang:t('error.cancelled'), 3500, "error")
-        end        
+        end  
+        searching = false      
     end)
 end
 
