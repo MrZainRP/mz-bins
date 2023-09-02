@@ -27,11 +27,16 @@ Config.SearchTimeHigh = 5               -- Highest time it will take to search a
 Config.mzskills = true                  -- change to 'false' to utilise resource without using mz-skills re: "Searching" skill
 -- If "Config.mzskills = true", the following parameters will apply:
 
-Config.BinSkill = "Searching"           -- name of the skill that will apply when using mz-bins (must be the same as a skill from mz-skills/config.lua)
+Config.BinSkill = "Searching"           -- Name of the skill that will apply when using mz-bins (must be the same as a skill from mz-skills/config.lua)
 
 Config.diveXPlow = 1                    -- Lowest amount of XP player will get for dumpster diving
 Config.diveXPhigh = 3                   -- Highest amount of XP player will get for dumpster diving
 Config.diveXPloss = 2                   -- Amount of XP lost for failing skillcheck (if skillcheck is enabled)
+
+-- XP modifier (for use with mz-skills)
+    Config.DualXP = true                    -- Change to false to disable the use of 2x XP 
+    Config.DualXPitem = "binjuice"          -- Item to consume to activate 2x XP?
+    Config.dualXPtime = 30                  -- Time (in minutes) for player to have double XP.
 
 -----------------------
 --BIN DIVE SKILLCHECK--
@@ -51,7 +56,7 @@ Config.rareitems = true                 -- change to 'false' to disable (NOTE: R
 --If you choose to have a potential for rare items to drop from searching bins, the following properties apply:
 Config.Rareitem1 = "wd40"               -- 1.5% chance to find when searching a bin
 Config.Rareitem2 = "blankusb"           -- 1% chance to find when searching a bin
-Config.Rareitem3 = "pistol1"            -- 0.5% chance to find when searching a bin
+Config.Rareitem3 = "binjuice"           -- 0.5% chance to find when searching a bin
 Config.Rareitem4 = "screwdriver"        -- 0.5% chance to find when searching a bin
 
 ------------

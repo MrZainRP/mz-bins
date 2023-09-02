@@ -324,3 +324,13 @@ RegisterServerEvent('mz-bins:server:walletReward', function()
     Player.Functions.RemoveItem("wallet", 1)
     TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['wallet'], "remove", 1)
 end)
+
+------
+--XP--
+------
+
+QBCore.Functions.CreateUseableItem(Config.DualXPitem, function(source, item)
+    TriggerClientEvent("mz-bins:client:XPBuff", source, item.name)
+    Player.Functions.RemoveItem(Config.DualXPitem, 1)
+    TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.DualXPitem], "remove", 1)
+end)

@@ -11,6 +11,7 @@ local FailedAttemps = 0
 local craftcheck = false
 local craftprocesscheck = false
 
+local dualXP = false
 local binparse 
 
 local hascans = false 
@@ -141,6 +142,33 @@ DrawText3Ds = function(x, y, z, text)
     ClearDrawOrigin()
 end
 
+RegisterNetEvent("mz-bins:client:XPBuff", function()
+    TriggerEvent('animations:client:EmoteCommandStart', {"drink"})
+    QBCore.Functions.Progressbar("grind_coke", Lang:t('progress.binjuice'), bottlestime, false, true, {
+        disableMovement = true,
+        disableCarMovement = true,
+        disableMouse = false,
+        disableCombat = true,
+    }, {}, {}, {}, function() -- Done
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t('success.binjuice'), "success", 3500)
+        elseif Config.NotifyType == 'okok' then 
+            exports['okokNotify']:Alert(Lang:t('label.binjuice'), Lang:t('success.binjuice'), 3500, "success")
+        end
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        dualXP = true 
+        Wait(1000 * 60 * Config.dualXPtime)
+        dualXP = false
+    end, function() -- Cancel
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t('error.cancelled'), "error", 3500)
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert(Lang:t('label.cancelled'), Lang:t('error.cancelled'), 3500, "error")
+        end      
+    end)
+end)
+
 RegisterNetEvent("mz-bins:SearchBin", function()
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
@@ -167,7 +195,11 @@ RegisterNetEvent("mz-bins:SearchBin", function()
                                     elseif xpmultiple < 4 then
                                         chance = Config.diveXPlow
                                     end
-                                    exports["mz-skills"]:UpdateSkill(Config.BinSkill, chance)
+                                    if not dualXP then 
+                                        exports["mz-skills"]:UpdateSkill(Config.BinSkill, chance)
+                                    elseif dualXP then  
+                                        exports["mz-skills"]:UpdateSkill(Config.BinSkill, (chance * 2))
+                                    end 
                                 end
                             else
                                 TriggerEvent('animations:client:EmoteCommandStart', {"c"})
@@ -201,7 +233,11 @@ RegisterNetEvent("mz-bins:SearchBin", function()
                             elseif xpmultiple < 4 then
                                 chance = Config.diveXPlow
                             end
-                            exports["mz-skills"]:UpdateSkill(Config.BinSkill, chance)
+                            if not dualXP then 
+                                exports["mz-skills"]:UpdateSkill(Config.BinSkill, chance)
+                            elseif dualXP then  
+                                exports["mz-skills"]:UpdateSkill(Config.BinSkill, (chance * 2))
+                            end 
                         end
                     end
                 else
@@ -319,8 +355,7 @@ openBin = function(entity)
             QBCore.Functions.Notify(Lang:t('error.cancelled'), "error", 3500)
         elseif Config.NotifyType == "okok" then
             exports['okokNotify']:Alert(Lang:t('label.cancelled'), Lang:t('error.cancelled'), 3500, "error")
-        end  
-        searching = false      
+        end        
     end)
 end
 

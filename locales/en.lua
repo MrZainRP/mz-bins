@@ -20,7 +20,7 @@ local Translations = {
         needcups = 'You need something glass to process...', 
         cupsruined = 'The glass shatters into unuseable pieces...', 
         cupsxpdown = '-%{value}XP to %{value2}.',
-        nocraft = "You have no material on you capable of being crafted..."
+        nocraft = "You have no material on you capable of being crafted...",
     },
     success = {
         sold = 'You have sold %{value2} many %{value}s for a total of $%{value3}',
@@ -28,7 +28,8 @@ local Translations = {
         crushbottles = "You begin crushing the plastic bottles...",
         processcaps = "You begin processing the bottlecaps...",
         workcups = 'You begin crushing the scrap glass...', 
-        yescraft = "Yes you do, please use this workbench again."
+        yescraft = "Yes you do, please use this workbench again.",
+        binjuice = "You feel strange...",
     },
     info = {
         sell = 'Sell Items',
@@ -53,6 +54,7 @@ local Translations = {
         crushbottles = "Crushing bottles...", 
         processcaps = "Processing bottlecaps...",
         processcups = "Processing glass fragments...",
+        binjuice = "Taking a sip...",
     },
     -- The following "label" fields are relevant to okokNotify notifications, if you are using qb-core notifications please ignore these.
     label = {
@@ -85,6 +87,7 @@ local Translations = {
         negative = "NEGATIVE?",
         nocraft = "NO MATERIALS?",
         yescraft = "MATERIALS FOUNDS!",
+        binjuice = "BIN JUICE!",
     },
 }
 
