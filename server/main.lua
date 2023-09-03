@@ -331,6 +331,8 @@ end)
 
 QBCore.Functions.CreateUseableItem(Config.DualXPitem, function(source, item)
     TriggerClientEvent("mz-bins:client:XPBuff", source, item.name)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
     Player.Functions.RemoveItem(Config.DualXPitem, 1)
     TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.DualXPitem], "remove", 1)
 end)

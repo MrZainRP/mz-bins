@@ -144,7 +144,8 @@ end
 
 RegisterNetEvent("mz-bins:client:XPBuff", function()
     TriggerEvent('animations:client:EmoteCommandStart', {"drink"})
-    QBCore.Functions.Progressbar("grind_coke", Lang:t('progress.binjuice'), bottlestime, false, true, {
+    local drinktime = math.random(4000, 6000)
+    QBCore.Functions.Progressbar("grind_coke", Lang:t('progress.binjuice'), drinktime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
